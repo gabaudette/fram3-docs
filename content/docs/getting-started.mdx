@@ -1,0 +1,60 @@
+---
+title: Getting Started
+description: Install Fram3 and build your first UI.
+---
+
+# Getting Started
+
+## Installation
+
+Fram3 is distributed as a Unity Package Manager (UPM) package. Add the following entry to your project's `Packages/manifest.json`:
+
+```json
+{
+  "dependencies": {
+    "com.fram3.ui": "https://github.com/gabaudette/fram3.git?path=Packages/com.fram3.ui"
+  }
+}
+```
+
+## Basic usage
+
+Attach an `FRenderer` MonoBehaviour to any GameObject that has a `UIDocument` component. Then implement a root element by extending `FStatelessElement` or `FStatefulElement`.
+
+```csharp
+using Fram3.UI.Core;
+using Fram3.UI.Elements.Layout;
+using Fram3.UI.Elements.Content;
+
+public sealed class CounterWidget : FStatefulElement
+{
+    public override FState CreateState() => new CounterState();
+
+    private sealed class CounterState : FState
+    {
+        private int _count;
+
+        public override FElement Build(FBuildContext context)
+        {
+            return new FColumn(children: new[]
+            {
+                new FText($"Count: {_count}"),
+                new FButton(
+                    label: "Increment",
+                    onPressed: () => SetState(() => _count++)),
+            });
+        }
+    }
+}
+```
+
+Mount it in your `FRenderer`:
+
+```csharp
+renderer.Mount(new CounterWidget());
+```
+
+## Next steps
+
+- [Concepts](/docs/concepts) -- how the element tree, reconciler, and state system work
+- [API Reference](/api/FElement) -- full public API documentation
