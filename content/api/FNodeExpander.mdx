@@ -1,0 +1,27 @@
+﻿---
+title: FNodeExpander
+description: "Mounts, unmounts, and expands FNodes from FElement descriptions. Expanding a node means recursively building the subtree beneath it: for stateless elements by calling Build, for stateful elements by invoking the state's Build, and for structural elements by walking their declared children. Unmounting a node recursively disposes state and clears child references. This is an internal framework type not intended for direct use."
+---
+
+# FNodeExpander
+
+Mounts, unmounts, and expands FNodes from FElement descriptions. Expanding a node means recursively building the subtree beneath it: for stateless elements by calling Build, for stateful elements by invoking the state's Build, and for structural elements by walking their declared children. Unmounting a node recursively disposes state and clears child references. This is an internal framework type not intended for direct use.
+
+## Methods
+
+### Mount
+
+Creates a new FNode for , attaches it to , mounts any required FState, and recursively expands child nodes.
+
+### Rebuild
+
+Re-expands the children of a dirty node after a rebuild. The node's element must already have been updated to the new description before calling this.
+
+### Unmount
+
+Recursively unmounts a node subtree: disposes state bottom-up and clears child references from the node.
+
+### UpdateElement
+
+Updates the element reference on a node and, for stateful nodes, invokes FStatefulElement) with the previous element. For inherited element nodes, notifies dependents when FInheritedElement) returns true.
+

@@ -1,0 +1,35 @@
+﻿---
+title: FValueListenableBuilder
+description: "An element that rebuilds its subtree whenever the value of an FValueNotifier changes. Subscribe a notifier and provide a builder delegate that turns the current value into an element tree. The subtree is rebuilt automatically each time the notifier emits a new value."
+---
+
+# FValueListenableBuilder
+
+An element that rebuilds its subtree whenever the value of an FValueNotifier changes. Subscribe a notifier and provide a builder delegate that turns the current value into an element tree. The subtree is rebuilt automatically each time the notifier emits a new value.
+
+## Constructor
+
+### FValueListenableBuilder
+
+Creates a new listenable builder.
+
+| Parameter | Description |
+| --- | --- |
+| `notifier` | The notifier to observe. |
+| `builder` | A delegate that receives the build context and the current value and returns the element subtree. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### Builder
+
+A delegate that maps the current notifier value to a child element. Called during every build triggered by a value change.
+
+### Notifier
+
+The notifier whose value changes drive rebuilds of this element's subtree.
+
+## Methods
+
+### CreateState
+

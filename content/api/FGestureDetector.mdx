@@ -1,0 +1,37 @@
+﻿---
+title: FGestureDetector
+description: "A transparent wrapper that detects pointer gestures on its child subtree. Maps to a plain UIToolkit VisualElement with registered pointer event callbacks."
+---
+
+# FGestureDetector
+
+A transparent wrapper that detects pointer gestures on its child subtree. Maps to a plain UIToolkit VisualElement with registered pointer event callbacks.
+
+## Constructor
+
+### FGestureDetector
+
+Creates an FGestureDetector element.
+
+| Parameter | Description |
+| --- | --- |
+| `child` | The child element whose area is monitored for gestures. |
+| `onTap` | Callback invoked on tap/click. |
+| `onPointerEnter` | Callback invoked when the pointer enters. |
+| `onPointerExit` | Callback invoked when the pointer exits. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### OnPointerEnter
+
+Callback invoked when the pointer enters this element's bounds.
+
+### OnPointerExit
+
+Callback invoked when the pointer exits this element's bounds.
+
+### OnTap
+
+Callback invoked when the user taps (clicks) inside this element's bounds.
+

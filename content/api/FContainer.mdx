@@ -1,0 +1,41 @@
+﻿---
+title: FContainer
+description: "A general-purpose container element that combines decoration, sizing, and padding in a single node. Maps to a UIToolkit VisualElement with decoration, size constraints, and padding applied directly to its style."
+---
+
+# FContainer
+
+A general-purpose container element that combines decoration, sizing, and padding in a single node. Maps to a UIToolkit VisualElement with decoration, size constraints, and padding applied directly to its style.
+
+## Constructor
+
+### FContainer
+
+Creates an FContainer element.
+
+| Parameter | Description |
+| --- | --- |
+| `decoration` | Optional visual decoration. |
+| `width` | Optional explicit width in logical pixels. |
+| `height` | Optional explicit height in logical pixels. |
+| `padding` | Optional inner padding. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### Decoration
+
+The visual decoration applied to this container (background color, border, corner radius, shadow). Null means no decoration.
+
+### Height
+
+The explicit height in logical pixels. Null means unconstrained on the vertical axis.
+
+### Padding
+
+Inner padding applied between the container boundary and its child. Null means no padding.
+
+### Width
+
+The explicit width in logical pixels. Null means unconstrained on the horizontal axis.
+

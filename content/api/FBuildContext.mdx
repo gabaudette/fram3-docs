@@ -1,0 +1,49 @@
+﻿---
+title: FBuildContext
+description: "A handle to the location of an element in the element tree. Provides access to ancestor elements and framework services from within a Build method. Each element in the tree receives its own build context, which can be used to look up inherited data or access navigation and state management facilities."
+---
+
+# FBuildContext
+
+A handle to the location of an element in the element tree. Provides access to ancestor elements and framework services from within a Build method. Each element in the tree receives its own build context, which can be used to look up inherited data or access navigation and state management facilities.
+
+## Properties
+
+### Depth
+
+The depth of this context in the element tree. The root element has depth 0.
+
+### Element
+
+The element that this context is associated with.
+
+### Node
+
+Returns the internal node associated with this context. This is intended for framework use only and should not be called by end users.
+
+## Methods
+
+### FindAncestorOfType``1
+
+Walks up the element tree looking for the nearest ancestor element of the specified type. Returns null if no matching ancestor is found.
+
+**Returns:** The nearest ancestor element of type T, or null.
+
+### FindInherited``1
+
+Walks up the element tree looking for the nearest ancestor that is an FInheritedElement of type , registers this element as a dependent of that ancestor, and returns the inherited element. When the inherited element is later replaced and FInheritedElement) returns true, this element's subtree will be automatically scheduled for a rebuild. Returns null when no matching ancestor exists.
+
+**Returns:** The nearest ancestor inherited element of type T, or null.
+
+### GetAncestorOfType``1
+
+Walks up the element tree looking for the nearest ancestor element of the specified type. Throws if no matching ancestor is found.
+
+**Returns:** The nearest ancestor element of type T.
+
+### GetInherited``1
+
+Walks up the element tree looking for the nearest ancestor that is an FInheritedElement of type , registers this element as a dependent, and returns the inherited element. Throws when no matching ancestor exists.
+
+**Returns:** The nearest ancestor inherited element of type T.
+

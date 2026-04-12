@@ -1,0 +1,36 @@
+﻿---
+title: FRadioGroup
+description: "A group of mutually exclusive radio button options. Only one option can be selected at a time. Maps to a UIToolkit RadioButtonGroup."
+---
+
+# FRadioGroup
+
+A group of mutually exclusive radio button options. Only one option can be selected at a time. Maps to a UIToolkit RadioButtonGroup.
+
+## Constructor
+
+### FRadioGroup
+
+Creates an FRadioGroup element.
+
+| Parameter | Description |
+| --- | --- |
+| `options` | The list of option labels. Must not be null. |
+| `selectedValue` | The currently selected option, or null for no selection. |
+| `onChanged` | Callback invoked when the selection changes. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### OnChanged
+
+Callback invoked whenever the selected option changes. Receives the newly selected option value as its argument.
+
+### Options
+
+The list of option labels displayed as radio buttons.
+
+### SelectedValue
+
+The currently selected option value, or null when nothing is selected.
+

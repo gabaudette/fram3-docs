@@ -1,0 +1,41 @@
+﻿---
+title: FProgressBar
+description: "Displays a read-only progress bar. Maps to UIToolkit's native ProgressBar element."
+---
+
+# FProgressBar
+
+Displays a read-only progress bar. Maps to UIToolkit's native ProgressBar element.
+
+## Constructor
+
+### FProgressBar
+
+Creates an FProgressBar element.
+
+| Parameter | Description |
+| --- | --- |
+| `value` | The current progress value. |
+| `min` | The minimum value. Defaults to 0. |
+| `max` | The maximum value. Defaults to 100. |
+| `title` | An optional label shown inside the bar. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### Max
+
+The maximum value of the range. Defaults to 100.
+
+### Min
+
+The minimum value of the range. Defaults to 0.
+
+### Title
+
+An optional text label displayed inside the progress bar. Null means no label is shown.
+
+### Value
+
+The current progress value. Should be within [Min, Max].
+

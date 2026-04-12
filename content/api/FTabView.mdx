@@ -1,0 +1,40 @@
+﻿---
+title: FTabView
+description: "A tabbed view that displays one tab content at a time, with a tab bar at the top. The tab bar is built from existing framework elements (FRow, FButton, FColumn); no native UIToolkit tab widget is used."
+---
+
+# FTabView
+
+A tabbed view that displays one tab content at a time, with a tab bar at the top. The tab bar is built from existing framework elements (FRow, FButton, FColumn); no native UIToolkit tab widget is used.
+
+## Constructor
+
+### FTabView
+
+Creates an FTabView element.
+
+| Parameter | Description |
+| --- | --- |
+| `tabs` | The list of tabs to display. Must not be null or empty. |
+| `onTabChanged` | Callback invoked when the active tab changes. |
+| `initialIndex` | The index of the initially selected tab. Defaults to 0. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### InitialIndex
+
+The zero-based index of the tab that is initially selected.
+
+### OnTabChanged
+
+Callback invoked whenever the active tab changes. Receives the new tab index as its argument.
+
+### Tabs
+
+The list of tabs. Must not be null or empty.
+
+## Methods
+
+### CreateState
+

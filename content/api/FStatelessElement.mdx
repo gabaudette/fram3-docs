@@ -1,0 +1,31 @@
+﻿---
+title: FStatelessElement
+description: "An element that composes other elements but holds no mutable state. Override the Build method to describe the UI subtree this element represents. The framework calls Build whenever the parent rebuilds, and the returned element tree is reconciled against the previous output."
+---
+
+# FStatelessElement
+
+An element that composes other elements but holds no mutable state. Override the Build method to describe the UI subtree this element represents. The framework calls Build whenever the parent rebuilds, and the returned element tree is reconciled against the previous output.
+
+## Constructor
+
+### FStatelessElement
+
+Creates a new stateless element with an optional key.
+
+| Parameter | Description |
+| --- | --- |
+| `key` | An optional key for reconciliation identity. |
+
+## Methods
+
+### Build
+
+Describes the UI subtree that this element represents. Called by the framework whenever a rebuild is needed.
+
+| Parameter | Description |
+| --- | --- |
+| `context` | The build context providing access to the element's position in the tree and ancestor lookup capabilities. |
+
+**Returns:** An element describing the UI subtree.
+
