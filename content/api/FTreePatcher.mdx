@@ -1,0 +1,15 @@
+﻿---
+title: FTreePatcher
+description: "Applies a list of FDiffOp operations produced by FTreeDiffer to the child list of an FNode. The patcher delegates to FNodeExpander for mounting and unmounting subtrees and updates element references on existing nodes. This is an internal framework type not intended for direct use."
+---
+
+# FTreePatcher
+
+Applies a list of FDiffOp operations produced by FTreeDiffer to the child list of an FNode. The patcher delegates to FNodeExpander for mounting and unmounting subtrees and updates element references on existing nodes. This is an internal framework type not intended for direct use.
+
+## Methods
+
+### Patch
+
+Reconciles the children of against by computing a diff and applying each operation in order.
+

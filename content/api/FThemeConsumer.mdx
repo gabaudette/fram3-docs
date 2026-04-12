@@ -1,0 +1,21 @@
+﻿---
+title: FThemeConsumer
+description: "Provides access to the nearest FThemeProvider in the element tree. When no provider is found, Default is returned."
+---
+
+# FThemeConsumer
+
+Provides access to the nearest FThemeProvider in the element tree. When no provider is found, Default is returned.
+
+## Methods
+
+### Of
+
+Returns the FTheme from the nearest FThemeProvider ancestor. Falls back to Default if no provider is in scope.
+
+| Parameter | Description |
+| --- | --- |
+| `context` | The current build context. |
+
+**Returns:** The nearest theme, or Default if none is found.
+

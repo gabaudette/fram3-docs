@@ -1,0 +1,41 @@
+﻿---
+title: FIcon
+description: "Displays a vector icon asset. Maps to UIToolkit's native Image element with a VectorImage source. Supply either a preloaded (UnityEngine.UIElements.VectorImage) or a project-relative asset path via . When both are provided, takes precedence."
+---
+
+# FIcon
+
+Displays a vector icon asset. Maps to UIToolkit's native Image element with a VectorImage source. Supply either a preloaded (UnityEngine.UIElements.VectorImage) or a project-relative asset path via . When both are provided, takes precedence.
+
+## Constructor
+
+### FIcon
+
+Creates an FIcon element.
+
+| Parameter | Description |
+| --- | --- |
+| `source` | A preloaded UnityEngine.UIElements.VectorImage. Takes precedence over when both are provided. |
+| `svgPath` | Project-relative path to a .svg asset. Used only when is null. |
+| `width` | Optional explicit width in logical pixels. |
+| `height` | Optional explicit height in logical pixels. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### Height
+
+The explicit height in logical pixels. Null means unconstrained.
+
+### Source
+
+The icon source. Expects a UnityEngine.UIElements.VectorImage at runtime. When set, takes precedence over SvgPath. Null displays nothing unless SvgPath is provided.
+
+### SvgPath
+
+Project-relative path to a .svg asset (e.g. "Assets/Icons/arrow.svg"). The asset is loaded via AssetDatabase.LoadAssetAtPath<VectorImage> at runtime. Ignored when Source is non-null.
+
+### Width
+
+The explicit width in logical pixels. Null means unconstrained.
+

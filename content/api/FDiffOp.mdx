@@ -1,0 +1,27 @@
+﻿---
+title: FDiffOp
+description: "Represents a single patch operation produced by the tree differ. Operations are applied in order by FTreePatcher to transform the existing FNode child list to match a new FElement child list. This is an internal framework type not intended for direct use."
+---
+
+# FDiffOp
+
+Represents a single patch operation produced by the tree differ. Operations are applied in order by FTreePatcher to transform the existing FNode child list to match a new FElement child list. This is an internal framework type not intended for direct use.
+
+## Properties
+
+### ExistingNode
+
+The existing node being updated, moved, or removed.
+
+### NewElement
+
+The new element to insert or update with.
+
+### NewIndex
+
+Index in the new child list this operation targets.
+
+### OldIndex
+
+Original index of the node in the old child list (used for Move).
+

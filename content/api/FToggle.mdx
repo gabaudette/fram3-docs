@@ -1,0 +1,36 @@
+﻿---
+title: FToggle
+description: "A boolean toggle (checkbox). Maps to a UIToolkit Toggle."
+---
+
+# FToggle
+
+A boolean toggle (checkbox). Maps to a UIToolkit Toggle.
+
+## Constructor
+
+### FToggle
+
+Creates an FToggle element.
+
+| Parameter | Description |
+| --- | --- |
+| `value` | The current checked state. |
+| `onChanged` | Callback invoked on every state change. |
+| `label` | Optional label text shown beside the toggle. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### Label
+
+An optional text label displayed alongside the toggle. Null means no label is shown.
+
+### OnChanged
+
+Callback invoked whenever the toggle state changes. Receives the new boolean value as its argument.
+
+### Value
+
+The current checked state of the toggle.
+

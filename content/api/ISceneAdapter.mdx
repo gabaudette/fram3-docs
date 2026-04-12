@@ -1,0 +1,19 @@
+﻿---
+title: ISceneAdapter
+description: "Abstraction over Unity's scene loading API, allowing test code to substitute a controllable stub in place of the real SceneManager."
+---
+
+# ISceneAdapter
+
+Abstraction over Unity's scene loading API, allowing test code to substitute a controllable stub in place of the real SceneManager.
+
+## Methods
+
+### LoadAsync
+
+Begins loading the scene identified by using LoadSceneMode.Single and returns an FSceneOperation that tracks progress and completion.
+
+| Parameter | Description |
+| --- | --- |
+| `sceneName` | The name of the scene to load. |
+

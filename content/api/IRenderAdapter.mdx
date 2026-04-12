@@ -1,0 +1,23 @@
+﻿---
+title: IRenderAdapter
+description: "Receives lifecycle notifications from FNodeExpander so a render bridge can keep its native object tree in sync with the framework node tree. Implement this interface inside the framework assembly; it is not part of the public API because it references the internal FNode type."
+---
+
+# IRenderAdapter
+
+Receives lifecycle notifications from FNodeExpander so a render bridge can keep its native object tree in sync with the framework node tree. Implement this interface inside the framework assembly; it is not part of the public API because it references the internal FNode type.
+
+## Methods
+
+### OnMounted
+
+Called after a node has been fully mounted and its subtree has been expanded.
+
+### OnRebuilt
+
+Called after a node has been rebuilt and its child list updated. Use this to synchronize properties on the node's existing native object.
+
+### OnUnmounting
+
+Called before a node's children are unmounted and its state is disposed. Use this to release the native object associated with the node.
+

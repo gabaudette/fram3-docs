@@ -1,0 +1,29 @@
+﻿---
+title: IPersistenceAdapter
+description: "Abstracts the persistence mechanism used by FPersistentStore. Implement this interface to provide a custom storage back-end. A default PlayerPrefs implementation is provided by FPersistentStore when running inside Unity."
+---
+
+# IPersistenceAdapter
+
+Abstracts the persistence mechanism used by FPersistentStore. Implement this interface to provide a custom storage back-end. A default PlayerPrefs implementation is provided by FPersistentStore when running inside Unity.
+
+## Methods
+
+### Save
+
+Saves to persistent storage. Called every time the state changes.
+
+| Parameter | Description |
+| --- | --- |
+| `state` | The state to persist. |
+
+### TryLoad
+
+Attempts to load the previously persisted state. Returns true and sets when persisted data exists. Returns false when no data has been saved yet, leaving as the default value for .
+
+| Parameter | Description |
+| --- | --- |
+| `state` | When this method returns true, contains the loaded state value. When this method returns false, contains the default value. |
+
+**Returns:** true if persisted data was found; otherwise false.
+

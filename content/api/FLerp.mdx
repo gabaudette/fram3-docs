@@ -1,0 +1,179 @@
+﻿---
+title: FLerp
+description: "Provides linear interpolation functions for all Fram3 styling types. Each method smoothly blends from to at the normalized position in [0, 1]. Values of outside [0, 1] are valid and produce extrapolation."
+---
+
+# FLerp
+
+Provides linear interpolation functions for all Fram3 styling types. Each method smoothly blends from to at the normalized position in [0, 1]. Values of outside [0, 1] are valid and produce extrapolation.
+
+## Methods
+
+### Alignment
+
+Linearly interpolates each axis of two FAlignment values.
+
+| Parameter | Description |
+| --- | --- |
+| `a` | Start alignment. |
+| `b` | End alignment. |
+| `t` | Normalized position in [0, 1]. |
+
+**Returns:** The interpolated alignment.
+
+### Border
+
+Linearly interpolates between two FBorder values.
+
+| Parameter | Description |
+| --- | --- |
+| `a` | Start border. |
+| `b` | End border. |
+| `t` | Normalized position in [0, 1]. |
+
+**Returns:** The interpolated border.
+
+### BorderRadius
+
+Linearly interpolates each corner radius of two FBorderRadius values.
+
+| Parameter | Description |
+| --- | --- |
+| `a` | Start radius. |
+| `b` | End radius. |
+| `t` | Normalized position in [0, 1]. |
+
+**Returns:** The interpolated border radius.
+
+### BoxDecoration
+
+Linearly interpolates between two FBoxDecoration values, blending each component independently.
+
+| Parameter | Description |
+| --- | --- |
+| `a` | Start decoration. |
+| `b` | End decoration. |
+| `t` | Normalized position in [0, 1]. |
+
+**Returns:** The interpolated box decoration.
+
+### Color
+
+Linearly interpolates each RGBA channel between two FColor values.
+
+| Parameter | Description |
+| --- | --- |
+| `a` | Start color. |
+| `b` | End color. |
+| `t` | Normalized position in [0, 1]. |
+
+**Returns:** The interpolated color.
+
+### EdgeInsets
+
+Linearly interpolates each edge of two FEdgeInsets values.
+
+| Parameter | Description |
+| --- | --- |
+| `a` | Start insets. |
+| `b` | End insets. |
+| `t` | Normalized position in [0, 1]. |
+
+**Returns:** The interpolated insets.
+
+### Float
+
+Linearly interpolates between two Single values.
+
+| Parameter | Description |
+| --- | --- |
+| `a` | Start value. |
+| `b` | End value. |
+| `t` | Normalized position in [0, 1]. |
+
+**Returns:** The interpolated value.
+
+### NullableBorder
+
+Linearly interpolates between two nullable FBorder values. Returns null when both are null. Snaps to the non-null side if one is null.
+
+| Parameter | Description |
+| --- | --- |
+| `a` | Start border. |
+| `b` | End border. |
+| `t` | Normalized position in [0, 1]. |
+
+**Returns:** The interpolated border, or null when both inputs are null.
+
+### NullableBorderRadius
+
+Linearly interpolates between two nullable FBorderRadius values. Returns null when both are null. Snaps to the non-null side if one is null.
+
+| Parameter | Description |
+| --- | --- |
+| `a` | Start radius. |
+| `b` | End radius. |
+| `t` | Normalized position in [0, 1]. |
+
+**Returns:** The interpolated border radius, or null when both inputs are null.
+
+### NullableColor
+
+Linearly interpolates between two nullable FColor values. Returns null when both are null. Snaps to the non-null side if one is null.
+
+| Parameter | Description |
+| --- | --- |
+| `a` | Start color. |
+| `b` | End color. |
+| `t` | Normalized position in [0, 1]. |
+
+**Returns:** The interpolated color, or null when both inputs are null.
+
+### NullableFloat
+
+Linearly interpolates between two nullable Single values. Returns null when both are null. Snaps to the non-null side if one is null.
+
+| Parameter | Description |
+| --- | --- |
+| `a` | Start value. |
+| `b` | End value. |
+| `t` | Normalized position in [0, 1]. |
+
+**Returns:** The interpolated value, or null when both inputs are null.
+
+### NullableShadow
+
+Linearly interpolates between two nullable FShadow values. Returns null when both are null. Snaps to the non-null side if one is null.
+
+| Parameter | Description |
+| --- | --- |
+| `a` | Start shadow. |
+| `b` | End shadow. |
+| `t` | Normalized position in [0, 1]. |
+
+**Returns:** The interpolated shadow, or null when both inputs are null.
+
+### Shadow
+
+Linearly interpolates between two FShadow values.
+
+| Parameter | Description |
+| --- | --- |
+| `a` | Start shadow. |
+| `b` | End shadow. |
+| `t` | Normalized position in [0, 1]. |
+
+**Returns:** The interpolated shadow.
+
+### TextStyle
+
+Linearly interpolates numeric properties of two FTextStyle values. Boolean properties (Bold, Italic, Underline) are taken from when is greater than or equal to 0.5, otherwise from .
+
+| Parameter | Description |
+| --- | --- |
+| `a` | Start text style. |
+| `b` | End text style. |
+| `t` | Normalized position in [0, 1]. |
+
+**Returns:** The interpolated text style.
+

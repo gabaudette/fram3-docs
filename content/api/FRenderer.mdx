@@ -1,0 +1,46 @@
+﻿---
+title: FRenderer
+description: "The primary entry point for mounting and driving a Fram3 element tree into a UIToolkit VisualElement container. Create one FRenderer per UIDocument root, call VisualElement) once to build the initial tree, then call Single) from MonoBehaviour.Update on every frame to flush pending rebuilds."
+---
+
+# FRenderer
+
+The primary entry point for mounting and driving a Fram3 element tree into a UIToolkit VisualElement container. Create one FRenderer per UIDocument root, call VisualElement) once to build the initial tree, then call Single) from MonoBehaviour.Update on every frame to flush pending rebuilds.
+
+## Constructor
+
+### FRenderer
+
+Initializes a new FRenderer.
+
+## Methods
+
+### Dispose
+
+Unmounts the element tree and releases all framework state. Safe to call multiple times; subsequent calls are no-ops.
+
+### GetNativeElement
+
+Returns the native VisualElement associated with the node for the given element, or null if not found. Intended for testing and debugging only.
+
+| Parameter | Description |
+| --- | --- |
+| `node` | The node whose native element to retrieve. |
+
+### Mount
+
+Mounts into , building the initial element tree and producing the corresponding native VisualElement subtree as children of .
+
+| Parameter | Description |
+| --- | --- |
+| `root` | The root element of the framework tree. |
+| `container` | The UIToolkit VisualElement that will host the rendered output. |
+
+### Tick
+
+Advances all active animation controllers by seconds, then flushes all pending rebuilds scheduled by Action) calls since the last tick. Call this from MonoBehaviour.Update, passing UnityEngine.Time.deltaTime as the argument.
+
+| Parameter | Description |
+| --- | --- |
+| `deltaTime` | Elapsed time in seconds since the previous frame. Must be non-negative. |
+

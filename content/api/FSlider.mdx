@@ -1,0 +1,46 @@
+﻿---
+title: FSlider
+description: "A numeric range slider. Maps to a UIToolkit Slider."
+---
+
+# FSlider
+
+A numeric range slider. Maps to a UIToolkit Slider.
+
+## Constructor
+
+### FSlider
+
+Creates an FSlider element.
+
+| Parameter | Description |
+| --- | --- |
+| `value` | The current slider value. Clamped to [min, max] by UIToolkit. |
+| `min` | The minimum value of the range. |
+| `max` | The maximum value of the range. |
+| `onChanged` | Callback invoked on every value change. |
+| `label` | Optional label text shown beside the slider. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### Label
+
+An optional text label displayed alongside the slider. Null means no label is shown.
+
+### Max
+
+The maximum value of the slider range.
+
+### Min
+
+The minimum value of the slider range.
+
+### OnChanged
+
+Callback invoked whenever the slider value changes. Receives the new float value as its argument.
+
+### Value
+
+The current value of the slider.
+

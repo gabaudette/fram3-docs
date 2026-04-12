@@ -1,0 +1,19 @@
+﻿---
+title: FRebuildScheduler
+description: "Collects nodes marked dirty via Action) and flushes them in ascending depth order during a single reconciliation pass. Processing ancestors before descendants avoids redundant rebuilds: if a parent is rebuilt it re-expands its entire subtree, making any enqueued descendant rebuild moot. This is an internal framework type not intended for direct use."
+---
+
+# FRebuildScheduler
+
+Collects nodes marked dirty via Action) and flushes them in ascending depth order during a single reconciliation pass. Processing ancestors before descendants avoids redundant rebuilds: if a parent is rebuilt it re-expands its entire subtree, making any enqueued descendant rebuild moot. This is an internal framework type not intended for direct use.
+
+## Methods
+
+### Flush
+
+Rebuilds all dirty nodes in depth order. Nodes already rebuilt because an ancestor was processed earlier are skipped.
+
+### Schedule
+
+Schedules for a rebuild on the next flush. Safe to call during a flush; the node will be processed in the current pass provided its depth is greater than the node currently being rebuilt.
+

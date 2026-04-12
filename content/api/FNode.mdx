@@ -1,0 +1,33 @@
+﻿---
+title: FNode
+description: "Represents the instantiation of an FElement in the live element tree. Nodes are the mutable, long-lived counterparts to immutable FElement descriptions. They track parent-child relationships, manage lifecycle state, and serve as the bridge between the declarative element descriptions and the rendered output. This is an internal framework type not intended for direct use by end users."
+---
+
+# FNode
+
+Represents the instantiation of an FElement in the live element tree. Nodes are the mutable, long-lived counterparts to immutable FElement descriptions. They track parent-child relationships, manage lifecycle state, and serve as the bridge between the declarative element descriptions and the rendered output. This is an internal framework type not intended for direct use by end users.
+
+## Fields
+
+### _inheritedDependents
+
+Nodes that depend on this node when this node holds an FInheritedElement. These are scheduled for rebuild when UpdateShouldNotify returns true.
+
+## Methods
+
+### AddInheritedDependent
+
+Registers as a node that depends on the inherited data carried by this node. Called when a descendant's build context invokes DependOnInherited and resolves to this node.
+
+### FindInheritedAncestor``1
+
+Walks up the ancestor chain to find the nearest FNode whose element is an FInheritedElement of type . Returns null when no such ancestor exists.
+
+### NotifyInheritedDependents
+
+Marks all registered inherited dependents dirty so they are rebuilt on the next frame. Called by FTreePatcher when an FInheritedElement update returns true from UpdateShouldNotify.
+
+### RemoveInheritedDependent
+
+Removes from the inherited dependents set. Called when the dependent node is unmounted.
+

@@ -1,0 +1,31 @@
+﻿---
+title: FProvider
+description: "Makes a value of type available to any descendant in the element tree. Descendants retrieve it with context.GetInherited<FProvider<T>>().Value or by using FConsumer / FSelector."
+---
+
+# FProvider
+
+Makes a value of type available to any descendant in the element tree. Descendants retrieve it with context.GetInherited<FProvider<T>>().Value or by using FConsumer / FSelector.
+
+## Constructor
+
+### FProvider
+
+Creates an FProvider that supplies to the subtree rooted at .
+
+| Parameter | Description |
+| --- | --- |
+| `value` | The value to provide. May be null for reference types. |
+| `child` | The child subtree that can access this provider. Must not be null. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### Value
+
+The value made available to descendants.
+
+## Methods
+
+### UpdateShouldNotify
+

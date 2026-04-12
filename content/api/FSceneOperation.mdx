@@ -1,0 +1,25 @@
+﻿---
+title: FSceneOperation
+description: "Represents an in-progress or completed scene load initiated by String). Poll Progress each frame or subscribe to Completed to react when the scene is fully loaded."
+---
+
+# FSceneOperation
+
+Represents an in-progress or completed scene load initiated by String). Poll Progress each frame or subscribe to Completed to react when the scene is fully loaded.
+
+## Properties
+
+### IsCompleted
+
+true once the scene has finished loading and is active.
+
+### Progress
+
+The normalized load progress in the range [0, 1]. Updated continuously during an async load. Equals 1 when IsCompleted is true.
+
+## Methods
+
+### Complete
+
+Marks the operation as completed, sets Progress to 1, and raises Completed. Safe to call multiple times; subsequent calls are no-ops.
+
