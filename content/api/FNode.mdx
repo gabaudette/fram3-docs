@@ -7,6 +7,12 @@ description: "Represents the instantiation of an FElement in the live element tr
 
 Represents the instantiation of an FElement in the live element tree. Nodes are the mutable, long-lived counterparts to immutable FElement descriptions. They track parent-child relationships, manage lifecycle state, and serve as the bridge between the declarative element descriptions and the rendered output. This is an internal framework type not intended for direct use by end users.
 
+## Properties
+
+### IsUnmounted
+
+True once this node has been unmounted. A node that is unmounted may still be in the rebuild scheduler queue (scheduled before the parent rebuilt and replaced this subtree). The scheduler skips unmounted nodes.
+
 ## Fields
 
 ### _inheritedDependents
@@ -22,6 +28,10 @@ Registers as a node that depends on the inherited data carried by this node. Cal
 ### FindInheritedAncestor``1
 
 Walks up the ancestor chain to find the nearest FNode whose element is an FInheritedElement of type . Returns null when no such ancestor exists.
+
+### MarkUnmounted
+
+Marks this node as unmounted so the rebuild scheduler can skip it if it was queued before the parent rebuilt and replaced this subtree.
 
 ### NotifyInheritedDependents
 
