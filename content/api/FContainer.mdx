@@ -1,11 +1,11 @@
 ﻿---
 title: FContainer
-description: "A general-purpose container element that combines decoration, sizing, and padding in a single node. Maps to a UIToolkit VisualElement with decoration, size constraints, and padding applied directly to its style."
+description: "A general-purpose container element that combines decoration, sizing, and padding in a single node. Maps to a UIToolkit VisualElement with decoration, size constraints, and padding applied directly to its style. When used without a child, it renders as a styled box with no content."
 ---
 
 # FContainer
 
-A general-purpose container element that combines decoration, sizing, and padding in a single node. Maps to a UIToolkit VisualElement with decoration, size constraints, and padding applied directly to its style.
+A general-purpose container element that combines decoration, sizing, and padding in a single node. Maps to a UIToolkit VisualElement with decoration, size constraints, and padding applied directly to its style. When used without a child, it renders as a styled box with no content.
 
 ## Constructor
 
@@ -38,4 +38,10 @@ Inner padding applied between the container boundary and its child. Null means n
 ### Width
 
 The explicit width in logical pixels. Null means unconstrained on the horizontal axis.
+
+## Methods
+
+### GetChildren
+
+Returns the child element when one was set, or an empty list when used as a styled box without content.
 

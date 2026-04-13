@@ -23,6 +23,10 @@ Creates a new single-child element with an optional key.
 
 The single child element wrapped by this element. Must be set during object initialization.
 
+### HasChild
+
+Returns true when Child was assigned during object initialization. Subclasses that support optional children should check this before calling GetChildren to avoid the null-child exception.
+
 ## Methods
 
 ### GetChildren
