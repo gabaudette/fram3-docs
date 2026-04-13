@@ -113,7 +113,7 @@
   'AnimationIntegrationTests': 'AnimationIntegrationTests',
   'GlobalStateIntegrationTests': 'GlobalStateIntegrationTests',
   'TreeBuilder': 'TreeBuilder',
-  'InheritedWidgetIntegrationTests': 'InheritedWidgetIntegrationTests',
+  'InheritedElementIntegrationTests': 'InheritedElementIntegrationTests',
   'ProviderHostState': 'ProviderHostState',
   'NavigationIntegrationTests': 'NavigationIntegrationTests',
   'RebuildSchedulerStressTests': 'RebuildSchedulerStressTests',

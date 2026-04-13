@@ -5,7 +5,7 @@ description: Create a Unity project, install Fram3, and build your first reactiv
 
 # Getting Started
 
-This guide walks through everything from creating a new Unity project to rendering your first Fram3 widget on screen.
+This guide walks through everything from creating a new Unity project to rendering your first Fram3 element on screen.
 
 > **See it in action first.** The [Fram3 repository](https://github.com/gabaudette/fram3) includes a Storybook that demonstrates every element and feature of the framework. Open the project in Unity and run the `Storybook` scene to browse live, interactive examples before writing any code yourself.
 
@@ -66,22 +66,22 @@ using Fram3.UI.Rendering;
 
 public sealed class MyApp : FAppRoot
 {
-    protected override FElement CreateRoot() => new CounterWidget();
+    protected override FElement CreateRoot() => new CounterElement();
 }
 ```
 
 `FAppRoot` is a `MonoBehaviour` that handles mounting, ticking, and disposing the renderer automatically. You only need to supply the root element.
 
-## Step 6 -- Write your first widget
+## Step 6 -- Write your first element
 
-Create a new C# script in `Assets/` called `CounterWidget.cs`:
+Create a new C# script in `Assets/` called `CounterElement.cs`:
 
 ```csharp
 using Fram3.UI.Core;
 using Fram3.UI.Elements.Content;
 using Fram3.UI.Elements.Layout;
 
-public sealed class CounterWidget : FStatefulElement
+public sealed class CounterElement : FStatefulElement
 {
     public override FState CreateState() => new CounterState();
 
@@ -103,7 +103,7 @@ public sealed class CounterWidget : FStatefulElement
 }
 ```
 
-`FStatefulElement` is the base for widgets that own mutable state. `FState` holds the state and implements `Build`, which returns an immutable description of the UI. Calling `SetState` schedules a rebuild -- only the elements that changed are patched in the UIToolkit tree.
+`FStatefulElement` is the base for elements that own mutable state. `FState` holds the state and implements `Build`, which returns an immutable description of the UI. Calling `SetState` schedules a rebuild -- only the elements that changed are patched in the UIToolkit tree.
 
 ## Step 7 -- Attach MyApp to the scene
 
