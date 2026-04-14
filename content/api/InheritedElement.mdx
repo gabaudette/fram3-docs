@@ -1,0 +1,31 @@
+﻿---
+title: InheritedElement
+description: "An element that propagates data down the element tree, accessible to descendants via GetInherited or FindInherited. When the parent rebuilds and provides a new inherited element of the same type, all descendants that declared a dependency via DependOnInherited are automatically scheduled for a rebuild -- but only when InheritedElement) returns true."
+---
+
+# InheritedElement
+
+An element that propagates data down the element tree, accessible to descendants via GetInherited or FindInherited. When the parent rebuilds and provides a new inherited element of the same type, all descendants that declared a dependency via DependOnInherited are automatically scheduled for a rebuild -- but only when InheritedElement) returns true.
+
+## Constructor
+
+### InheritedElement
+
+Creates a new inherited element with an optional key.
+
+| Parameter | Description |
+| --- | --- |
+| `key` | An optional key for reconciliation identity. |
+
+## Methods
+
+### UpdateShouldNotify
+
+Determines whether dependent descendants should be rebuilt after this element is updated. Called by the framework when a new element of the same type replaces this element in the tree. Return false to suppress rebuilds when the data has not meaningfully changed.
+
+| Parameter | Description |
+| --- | --- |
+| `oldElement` | The previous element that this one replaced. |
+
+**Returns:** true if dependents should be rebuilt; false otherwise.
+

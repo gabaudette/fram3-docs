@@ -1,0 +1,30 @@
+﻿---
+title: Store
+description: "A Redux-style reactive state container. Holds a single immutable state value and mutates it exclusively through a pure reducer function that maps the current state and a dispatched FrameAction to a new state."
+---
+
+# Store
+
+A Redux-style reactive state container. Holds a single immutable state value and mutates it exclusively through a pure reducer function that maps the current state and a dispatched FrameAction to a new state.
+
+## Constructor
+
+### Store
+
+Creates a store with an initial state and a pure reducer function.
+
+| Parameter | Description |
+| --- | --- |
+| `initialState` | The initial state of the store. |
+| `reducer` | A pure function that takes the current state and a dispatched action and returns the next state. Must not be null. |
+
+## Methods
+
+### Dispatch
+
+Dispatches through the reducer, computing the next state and emitting it if it differs from the current state.
+
+| Parameter | Description |
+| --- | --- |
+| `action` | The action to dispatch. Must not be null. |
+

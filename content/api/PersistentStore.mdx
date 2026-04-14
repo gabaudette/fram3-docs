@@ -1,0 +1,20 @@
+﻿---
+title: PersistentStore
+description: "A reactive state store that automatically persists its state across scene reloads using a pluggable IPersistenceAdapter. On first access the previously persisted state is restored; every subsequent Cubit call that changes the state persists the new state."
+---
+
+# PersistentStore
+
+A reactive state store that automatically persists its state across scene reloads using a pluggable IPersistenceAdapter. On first access the previously persisted state is restored; every subsequent Cubit call that changes the state persists the new state.
+
+## Constructor
+
+### PersistentStore
+
+Creates a persistent store. If the adapter can load a previously persisted state that state is used as the initial value; otherwise is used.
+
+| Parameter | Description |
+| --- | --- |
+| `fallbackState` | The state to use when no persisted state is available. |
+| `adapter` | The adapter responsible for saving and loading state. Must not be null. |
+

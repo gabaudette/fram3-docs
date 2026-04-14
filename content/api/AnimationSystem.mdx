@@ -1,0 +1,29 @@
+﻿---
+title: AnimationSystem
+description: "Global registry that tracks all live AnimationController instances and advances them each frame. Renderer calls Single) once per frame before flushing the rebuild scheduler."
+---
+
+# AnimationSystem
+
+Global registry that tracks all live AnimationController instances and advances them each frame. Renderer calls Single) once per frame before flushing the rebuild scheduler.
+
+## Properties
+
+### RegisteredCount
+
+Returns the number of currently registered animation controllers. Intended for testing and debugging.
+
+## Methods
+
+### Reset
+
+Clears all registered controllers without disposing them. Intended for test isolation only.
+
+### Tick
+
+Advances all registered animation controllers by seconds. Called automatically by Single).
+
+| Parameter | Description |
+| --- | --- |
+| `deltaTime` | Elapsed time in seconds since the previous frame. |
+

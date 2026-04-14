@@ -1,0 +1,31 @@
+﻿---
+title: Provider
+description: "Makes a value of type available to any descendant in the element tree. Descendants retrieve it with context.GetInherited&lt;Provider&lt;T&gt;&gt;().Value or by using Consumer / Selector."
+---
+
+# Provider
+
+Makes a value of type available to any descendant in the element tree. Descendants retrieve it with context.GetInherited&lt;Provider&lt;T&gt;&gt;().Value or by using Consumer / Selector.
+
+## Constructor
+
+### Provider
+
+Creates an Provider that supplies to the subtree rooted at .
+
+| Parameter | Description |
+| --- | --- |
+| `value` | The value to provide. May be null for reference types. |
+| `child` | The child subtree that can access this provider. Must not be null. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### Value
+
+The value made available to descendants.
+
+## Methods
+
+### UpdateShouldNotify
+

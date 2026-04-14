@@ -1,0 +1,30 @@
+﻿---
+title: CubitBuilder
+description: "Rebuilds its subtree whenever the state of the nearest ancestor Provider-provided changes."
+---
+
+# CubitBuilder
+
+Rebuilds its subtree whenever the state of the nearest ancestor Provider-provided changes.
+
+## Constructor
+
+### CubitBuilder
+
+Creates an CubitBuilder.
+
+| Parameter | Description |
+| --- | --- |
+| `builder` | A function that receives the current cubit state and returns the UI subtree. Must not be null. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### Builder
+
+The builder function that receives the build context and current state and returns an element describing the UI.
+
+## Methods
+
+### CreateState
+

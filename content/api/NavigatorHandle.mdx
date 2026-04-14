@@ -1,0 +1,30 @@
+﻿---
+title: NavigatorHandle
+description: "Provides imperative navigation operations to descendants in the element tree. Obtain an instance via context.GetInherited&lt;NavigatorScope&gt;().Navigator."
+---
+
+# NavigatorHandle
+
+Provides imperative navigation operations to descendants in the element tree. Obtain an instance via context.GetInherited&lt;NavigatorScope&gt;().Navigator.
+
+## Properties
+
+### CanPop
+
+Returns true when the stack has more than one route and Pop would have an effect.
+
+## Methods
+
+### Pop
+
+Removes the top route from the navigation stack. Does nothing when the stack contains only the initial route.
+
+### Push
+
+Pushes a named route onto the navigation stack. The route must be registered in the enclosing Navigator.
+
+| Parameter | Description |
+| --- | --- |
+| `routeName` | The name of the registered route to push. |
+| `arguments` | Optional arguments forwarded to the route builder. May be null. |
+

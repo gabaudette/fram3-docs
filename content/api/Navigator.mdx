@@ -1,0 +1,35 @@
+﻿---
+title: Navigator
+description: "A stack-based in-scene navigator. Maintains a stack of named routes and renders the topmost route as its content. Descendants can push and pop routes by retrieving the NavigatorHandle via context.GetInherited&lt;NavigatorScope&gt;().Navigator."
+---
+
+# Navigator
+
+A stack-based in-scene navigator. Maintains a stack of named routes and renders the topmost route as its content. Descendants can push and pop routes by retrieving the NavigatorHandle via context.GetInherited&lt;NavigatorScope&gt;().Navigator.
+
+## Constructor
+
+### Navigator
+
+Creates an Navigator with the given routes and initial route.
+
+| Parameter | Description |
+| --- | --- |
+| `routes` | A dictionary mapping route names to builder functions. Must not be null or empty. |
+| `initialRoute` | The name of the route to display first. Must be present in . |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### InitialRoute
+
+The name of the route displayed when the navigator is first mounted. Must be a key present in Routes.
+
+### Routes
+
+The registered routes. Each key is a route name; each value is a builder that returns the element tree for that route.
+
+## Methods
+
+### CreateState
+

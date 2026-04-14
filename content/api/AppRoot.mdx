@@ -1,0 +1,27 @@
+﻿---
+title: AppRoot
+description: "Base MonoBehaviour for mounting a Fram3 element tree into a UIDocument. Attach a subclass to the same GameObject as a UIDocument that has a PanelSettings asset assigned, then override CreateRoot to return the root element of your UI."
+---
+
+# AppRoot
+
+Base MonoBehaviour for mounting a Fram3 element tree into a UIDocument. Attach a subclass to the same GameObject as a UIDocument that has a PanelSettings asset assigned, then override CreateRoot to return the root element of your UI.
+
+## Methods
+
+### CreateRoot
+
+Returns the root Element to mount into the UIDocument. Called once during Start.
+
+### OnDestroy
+
+Disposes the renderer and unmounts the element tree.
+
+### Start
+
+Mounts the element tree returned by CreateRoot into the UIDocument on this GameObject.
+
+### Update
+
+Ticks the renderer to flush pending rebuilds and advance animations.
+
