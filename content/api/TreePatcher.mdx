@@ -1,0 +1,15 @@
+﻿---
+title: TreePatcher
+description: "Applies a list of DiffOp operations produced by TreeDiffer to the child list of an Node. The patcher delegates to NodeExpander for mounting and unmounting subtrees and updates element references on existing nodes. This is an internal framework type not intended for direct use."
+---
+
+# TreePatcher
+
+Applies a list of DiffOp operations produced by TreeDiffer to the child list of an Node. The patcher delegates to NodeExpander for mounting and unmounting subtrees and updates element references on existing nodes. This is an internal framework type not intended for direct use.
+
+## Methods
+
+### Patch
+
+Reconciles the children of against by computing a diff and applying each operation in order.
+

@@ -1,0 +1,41 @@
+﻿---
+title: Dropdown
+description: "A dropdown selection control. Maps to a UIToolkit DropdownField."
+---
+
+# Dropdown
+
+A dropdown selection control. Maps to a UIToolkit DropdownField.
+
+## Constructor
+
+### Dropdown
+
+Creates an Dropdown element.
+
+| Parameter | Description |
+| --- | --- |
+| `options` | The list of options to display. Must not be null. |
+| `selectedIndex` | The index of the currently selected option. -1 means no selection. |
+| `onChanged` | Callback invoked on every selection change. |
+| `label` | Optional label text shown beside the dropdown. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### Label
+
+An optional text label displayed alongside the dropdown. Null means no label is shown.
+
+### OnChanged
+
+Callback invoked whenever the selection changes. Receives the new zero-based index as its argument.
+
+### Options
+
+The list of string options shown in the dropdown.
+
+### SelectedIndex
+
+The index of the currently selected option. -1 means nothing is selected.
+

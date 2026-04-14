@@ -1,0 +1,41 @@
+﻿---
+title: Spinner
+description: "An indeterminate progress spinner that continuously rotates a fixed arc. The animation is driven by an internal AnimationController and requires Renderer.Tick to be called each frame. Maps to an SpinnerElement native visual that draws the arc using UIToolkit's MeshGenerationContext."
+---
+
+# Spinner
+
+An indeterminate progress spinner that continuously rotates a fixed arc. The animation is driven by an internal AnimationController and requires Renderer.Tick to be called each frame. Maps to an SpinnerElement native visual that draws the arc using UIToolkit's MeshGenerationContext.
+
+## Constructor
+
+### Spinner
+
+Creates an Spinner element.
+
+| Parameter | Description |
+| --- | --- |
+| `size` | Diameter in logical pixels. Defaults to 32. |
+| `strokeWidth` | Arc thickness in logical pixels. Defaults to 4. |
+| `color` | Arc color. Null means no explicit color is applied. |
+| `speed` | Seconds per full rotation. Defaults to 1. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### Color
+
+The color of the arc. Null applies no explicit color (inherits from context).
+
+### Size
+
+The diameter of the spinner in logical pixels. Defaults to 32.
+
+### Speed
+
+Duration of one full rotation in seconds. Defaults to 1.
+
+### StrokeWidth
+
+The thickness of the spinning arc in logical pixels. Defaults to 4.
+

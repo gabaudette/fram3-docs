@@ -1,0 +1,35 @@
+﻿---
+title: Selector
+description: "Selects a derived value from a state and rebuilds its subtree only when that derived value changes, ignoring state changes that do not affect the selected value. This makes it more efficient than CubitBuilder when only a small slice of the state drives a given piece of UI."
+---
+
+# Selector
+
+Selects a derived value from a state and rebuilds its subtree only when that derived value changes, ignoring state changes that do not affect the selected value. This makes it more efficient than CubitBuilder when only a small slice of the state drives a given piece of UI.
+
+## Constructor
+
+### Selector
+
+Creates an Selector.
+
+| Parameter | Description |
+| --- | --- |
+| `selector` | A pure function that extracts the relevant value from the cubit state. Must not be null. |
+| `builder` | A function that receives the derived value and returns the UI subtree. Must not be null. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### Builder
+
+The builder function that receives the derived value and returns the UI subtree.
+
+### SelectorFunc
+
+The function that derives a value from the current cubit state.
+
+## Methods
+
+### CreateState
+

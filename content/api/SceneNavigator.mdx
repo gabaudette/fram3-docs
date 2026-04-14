@@ -1,0 +1,29 @@
+﻿---
+title: SceneNavigator
+description: "Provides static methods for navigating between Unity scenes. Use String) to replace the current scene asynchronously."
+---
+
+# SceneNavigator
+
+Provides static methods for navigating between Unity scenes. Use String) to replace the current scene asynchronously.
+
+## Methods
+
+### GoTo
+
+Begins loading the scene identified by using LoadSceneMode.Single, replacing the current scene. Returns an SceneOperation that tracks progress and fires a Completed event when the scene is active.
+
+| Parameter | Description |
+| --- | --- |
+| `sceneName` | The name of the scene to load. Must match a scene name registered in Unity's Build Settings. |
+
+**Returns:** An SceneOperation whose Progress property advances from 0 to 1 during the load.
+
+### SetAdapter
+
+Replaces the scene adapter used by String). Intended for testing only. Pass null to restore the default Unity adapter.
+
+| Parameter | Description |
+| --- | --- |
+| `adapter` | The adapter to use, or null to restore the default. |
+

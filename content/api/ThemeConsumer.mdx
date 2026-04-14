@@ -1,0 +1,21 @@
+﻿---
+title: ThemeConsumer
+description: "Provides access to the nearest ThemeProvider in the element tree. When no provider is found, Default is returned."
+---
+
+# ThemeConsumer
+
+Provides access to the nearest ThemeProvider in the element tree. When no provider is found, Default is returned.
+
+## Methods
+
+### Of
+
+Returns the Theme from the nearest ThemeProvider ancestor. Falls back to Default if no provider is in scope.
+
+| Parameter | Description |
+| --- | --- |
+| `context` | The current build context. |
+
+**Returns:** The nearest theme, or Default if none is found.
+

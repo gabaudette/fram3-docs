@@ -1,0 +1,27 @@
+﻿---
+title: StatefulElement
+description: "An element that has mutable state persisted across rebuilds. The framework creates the state object once via CreateState, and preserves it even when the element description is recreated. Use this when a piece of UI needs to track information that changes over time, such as user input, animation progress, or toggle state."
+---
+
+# StatefulElement
+
+An element that has mutable state persisted across rebuilds. The framework creates the state object once via CreateState, and preserves it even when the element description is recreated. Use this when a piece of UI needs to track information that changes over time, such as user input, animation progress, or toggle state.
+
+## Constructor
+
+### StatefulElement
+
+Creates a new stateful element with an optional key.
+
+| Parameter | Description |
+| --- | --- |
+| `key` | An optional key for reconciliation identity. |
+
+## Methods
+
+### CreateState
+
+Creates the mutable state object for this element. Called exactly once when the element is first mounted into the tree. The returned state object persists across rebuilds until the element is unmounted.
+
+**Returns:** A new state instance for this element.
+

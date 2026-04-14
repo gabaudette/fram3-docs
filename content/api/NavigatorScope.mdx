@@ -1,0 +1,31 @@
+﻿---
+title: NavigatorScope
+description: "An inherited element that carries a NavigatorHandle through the element tree. Descendants retrieve it with context.GetInherited&lt;NavigatorScope&gt;().Navigator."
+---
+
+# NavigatorScope
+
+An inherited element that carries a NavigatorHandle through the element tree. Descendants retrieve it with context.GetInherited&lt;NavigatorScope&gt;().Navigator.
+
+## Constructor
+
+### NavigatorScope
+
+Creates an NavigatorScope that propagates to the subtree rooted at .
+
+| Parameter | Description |
+| --- | --- |
+| `navigator` | The navigator handle. Must not be null. |
+| `child` | The child subtree. Must not be null. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### Navigator
+
+The navigator handle available to descendants.
+
+## Methods
+
+### UpdateShouldNotify
+

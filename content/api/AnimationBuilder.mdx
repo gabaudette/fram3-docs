@@ -1,0 +1,40 @@
+﻿---
+title: AnimationBuilder
+description: "An element that creates and drives an AnimationController and rebuilds its subtree on every animation tick. The controller's curved value is passed to the builder delegate so that descendant elements can read the current animation progress. The controller is created automatically when the element mounts and disposed when the element unmounts. Call Forward or Reverse from within the builder or from a gesture handler to start playback."
+---
+
+# AnimationBuilder
+
+An element that creates and drives an AnimationController and rebuilds its subtree on every animation tick. The controller's curved value is passed to the builder delegate so that descendant elements can read the current animation progress. The controller is created automatically when the element mounts and disposed when the element unmounts. Call Forward or Reverse from within the builder or from a gesture handler to start playback.
+
+## Constructor
+
+### AnimationBuilder
+
+Creates a new animation builder.
+
+| Parameter | Description |
+| --- | --- |
+| `duration` | Duration of one full pass in seconds. Must be greater than zero. |
+| `builder` | A delegate that receives the build context and the animation controller and returns the element subtree. |
+| `curve` | The easing curve to apply. Defaults to Linear when null. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### Builder
+
+A delegate that receives the build context and the animation controller, and returns the element subtree. The controller's Value reflects the current curved progress in [0, 1].
+
+### Curve
+
+The easing curve applied to the raw linear progress before passing the value to Builder. Defaults to Linear when null.
+
+### Duration
+
+Duration of one full forward or reverse pass in seconds. Must be greater than zero.
+
+## Methods
+
+### CreateState
+

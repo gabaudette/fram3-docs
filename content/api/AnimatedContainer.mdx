@@ -1,0 +1,60 @@
+﻿---
+title: AnimatedContainer
+description: "A container element whose visual properties animate implicitly when they change between builds. Any property that differs from its previous value will smoothly tween to the new target over Duration. This is a convenience wrapper over ImplicitAnimation for the common case of animating container decoration, size, and padding."
+---
+
+# AnimatedContainer
+
+A container element whose visual properties animate implicitly when they change between builds. Any property that differs from its previous value will smoothly tween to the new target over Duration. This is a convenience wrapper over ImplicitAnimation for the common case of animating container decoration, size, and padding.
+
+## Constructor
+
+### AnimatedContainer
+
+Creates a new animated container.
+
+| Parameter | Description |
+| --- | --- |
+| `duration` | Duration of one full tween in seconds. Must be greater than zero. |
+| `child` | The child element to render inside this container. |
+| `decoration` | Optional visual decoration to animate toward. |
+| `width` | Optional target width in logical pixels. |
+| `height` | Optional target height in logical pixels. |
+| `padding` | Optional target inner padding. |
+| `curve` | The easing curve to apply. Defaults to linear when null. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### Child
+
+The child element rendered inside this container.
+
+### Curve
+
+The easing curve applied to the animation progress. Defaults to Linear when null.
+
+### Decoration
+
+The visual decoration to animate toward.
+
+### Duration
+
+Duration of one full tween in seconds. Must be greater than zero.
+
+### Height
+
+The target height in logical pixels.
+
+### Padding
+
+The target inner padding.
+
+### Width
+
+The target width in logical pixels.
+
+## Methods
+
+### Build
+

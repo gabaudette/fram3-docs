@@ -1,23 +1,23 @@
 ﻿---
 title: IFAnimatedValue
-description: "Non-generic interface implemented by all FAnimatedValue instances. Used by FImplicitAnimationSnapshot internally to store and interpolate heterogeneous animated values without knowing their concrete types."
+description: "Non-generic interface implemented by all AnimatedValue instances. Used by ImplicitAnimationSnapshot internally to store and interpolate heterogeneous animated values without knowing their concrete types."
 ---
 
 # IFAnimatedValue
 
-Non-generic interface implemented by all FAnimatedValue instances. Used by FImplicitAnimationSnapshot internally to store and interpolate heterogeneous animated values without knowing their concrete types.
+Non-generic interface implemented by all AnimatedValue instances. Used by ImplicitAnimationSnapshot internally to store and interpolate heterogeneous animated values without knowing their concrete types.
 
 ## Properties
 
 ### Key
 
-The key that identifies this value within an FImplicitAnimation.
+The key that identifies this value within an ImplicitAnimation.
 
 ## Methods
 
 ### HasChangedFrom
 
-Returns true when the target value differs from 's target. Used by FImplicitAnimation to detect whether any property changed.
+Returns true when the target value differs from 's target. Used by ImplicitAnimation to detect whether any property changed.
 
 ### Interpolate
 

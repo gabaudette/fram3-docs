@@ -1,0 +1,30 @@
+﻿---
+title: Consumer
+description: "Reads the value from the nearest ancestor Provider and passes it to a builder function. Rebuilds whenever that value changes."
+---
+
+# Consumer
+
+Reads the value from the nearest ancestor Provider and passes it to a builder function. Rebuilds whenever that value changes.
+
+## Constructor
+
+### Consumer
+
+Creates an Consumer.
+
+| Parameter | Description |
+| --- | --- |
+| `builder` | A function that receives the current provided value and returns the UI subtree. Must not be null. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### Builder
+
+The builder function that receives the current value and the build context and returns an element describing the UI.
+
+## Methods
+
+### Build
+
