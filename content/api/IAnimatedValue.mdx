@@ -1,9 +1,9 @@
 ﻿---
-title: IFAnimatedValue
+title: IAnimatedValue
 description: "Non-generic interface implemented by all AnimatedValue instances. Used by ImplicitAnimationSnapshot internally to store and interpolate heterogeneous animated values without knowing their concrete types."
 ---
 
-# IFAnimatedValue
+# IAnimatedValue
 
 Non-generic interface implemented by all AnimatedValue instances. Used by ImplicitAnimationSnapshot internally to store and interpolate heterogeneous animated values without knowing their concrete types.
 
@@ -25,5 +25,5 @@ Creates an interpolated snapshot entry for this value, starting from and ending 
 
 ### WithTarget
 
-Returns a new IFAnimatedValue of the same type and key, but with its target replaced by . Used internally to capture the mid-tween snapshot as a new baseline when a property changes while already animating.
+Returns a new IAnimatedValue of the same type and key, but with its target replaced by . Used internally to capture the mid-tween snapshot as a new baseline when a property changes while already animating.
 

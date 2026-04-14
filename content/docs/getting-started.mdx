@@ -56,7 +56,7 @@ UIToolkit requires a **Panel Settings** asset to control rendering resolution an
 
 ## Step 5 -- Write your app root
 
-Create a new C# script in `Assets/` called `MyApp.cs`. This is the single entry point for your UI. Subclass `FAppRoot` and override `CreateRoot` to return the root element of your interface:
+Create a new C# script in `Assets/` called `MyApp.cs`. This is the single entry point for your UI. Subclass `AppRoot` and override `CreateRoot` to return the root element of your interface:
 
 ```csharp
 using Fram3.UI.Core;
@@ -64,13 +64,13 @@ using Fram3.UI.Elements.Content;
 using Fram3.UI.Elements.Layout;
 using Fram3.UI.Rendering;
 
-public sealed class MyApp : FAppRoot
+public sealed class MyApp : AppRoot
 {
-    protected override FElement CreateRoot() => new CounterElement();
+    protected override Element CreateRoot() => new CounterElement();
 }
 ```
 
-`FAppRoot` is a `MonoBehaviour` that handles mounting, ticking, and disposing the renderer automatically. You only need to supply the root element.
+`AppRoot` is a `MonoBehaviour` that handles mounting, ticking, and disposing the renderer automatically. You only need to supply the root element.
 
 ## Step 6 -- Write your first element
 
@@ -81,20 +81,20 @@ using Fram3.UI.Core;
 using Fram3.UI.Elements.Content;
 using Fram3.UI.Elements.Layout;
 
-public sealed class CounterElement : FStatefulElement
+public sealed class CounterElement : StatefulElement
 {
-    public override FState CreateState() => new CounterState();
+    public override State CreateState() => new CounterState();
 
-    private sealed class CounterState : FState
+    private sealed class CounterState : State
     {
         private int _count;
 
-        public override FElement Build(FBuildContext context)
+        public override Element Build(BuildContext context)
         {
-            return new FColumn(children: new FElement[]
+            return new Column(children: new Element[]
             {
-                new FText($"Count: {_count}"),
-                new FButton(
+                new Text($"Count: {_count}"),
+                new Button(
                     label: "Increment",
                     onPressed: () => SetState(() => _count++)),
             });
@@ -103,23 +103,23 @@ public sealed class CounterElement : FStatefulElement
 }
 ```
 
-`FStatefulElement` is the base for elements that own mutable state. `FState` holds the state and implements `Build`, which returns an immutable description of the UI. Calling `SetState` schedules a rebuild -- only the elements that changed are patched in the UIToolkit tree.
+`StatefulElement` is the base for elements that own mutable state. `State` holds the state and implements `Build`, which returns an immutable description of the UI. Calling `SetState` schedules a rebuild -- only the elements that changed are patched in the UIToolkit tree.
 
 ## Step 7 -- Attach MyApp to the scene
 
 1. Select the `UI` GameObject in the Hierarchy.
 2. Click **Add Component** and search for `MyApp`.
-3. The component appears in the Inspector. `FAppRoot` requires a `UIDocument` on the same GameObject, which you added in Step 4.
+3. The component appears in the Inspector. `AppRoot` requires a `UIDocument` on the same GameObject, which you added in Step 4.
 
 Hit **Play**. You should see a column with the text "Count: 0" and an "Increment" button. Clicking the button increments the count.
 
 ## What just happened
 
-- `FAppRoot` detected the `UIDocument` on the same GameObject, applied full-screen sizing to the root visual element, created an `FRenderer`, and called `CreateRoot()` to mount the tree.
+- `AppRoot` detected the `UIDocument` on the same GameObject, applied full-screen sizing to the root visual element, created a `Renderer`, and called `CreateRoot()` to mount the tree.
 - The renderer's tick and dispose calls are wired to `Update` and `OnDestroy` automatically -- no boilerplate required.
 - `Mount` set the root element. From that point on, every `SetState` call triggers a diff between the new element tree and the previous one, and only the changed nodes are updated in the underlying visual tree.
 - No UXML, no USS files, no code generation -- the entire UI is described in C#.
 
 ## Next steps
 
-- [API Reference](/api/FElement) -- full public API documentation
+- [API Reference](/api/Element) -- full public API documentation
