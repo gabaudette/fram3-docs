@@ -1,0 +1,243 @@
+---
+title: Theming
+description: Define and propagate a consistent visual style across your entire UI using Theme, ThemeProvider, and ThemeConsumer.
+---
+
+# Theming
+
+Fram3 ships a lightweight, token-based theme system. A `Theme` is an immutable record that bundles every design decision -- colors, typography sizes, spacing, and border radius -- into a single object. You push a `Theme` into the tree with `ThemeProvider` and read it anywhere below with `ThemeConsumer.Of(context)`.
+
+## The Theme record
+
+`Theme` is a `sealed record` with the following tokens:
+
+| Property | Type | Description |
+|---|---|---|
+| `PrimaryColor` | `FrameColor` | Primary brand color for prominent interactive elements |
+| `SecondaryColor` | `FrameColor` | Complementary accent color |
+| `BackgroundColor` | `FrameColor` | Root canvas or page background |
+| `SurfaceColor` | `FrameColor` | Cards, dialogs, and elevated containers |
+| `OnPrimaryColor` | `FrameColor` | Text or icon color drawn on top of `PrimaryColor` |
+| `ErrorColor` | `FrameColor` | Errors and destructive actions |
+| `PrimaryTextColor` | `FrameColor` | Default body text |
+| `SecondaryTextColor` | `FrameColor` | Subdued labels and captions |
+| `DisabledTextColor` | `FrameColor` | Disabled controls and placeholder text |
+| `FontSize` | `float` | Base body font size in pixels |
+| `FontSizeSmall` | `float` | Caption and helper text size in pixels |
+| `FontSizeLarge` | `float` | Heading and title size in pixels |
+| `BorderRadius` | `float` | Corner radius for buttons, cards, and inputs |
+| `Spacing` | `float` | Base spacing unit for padding and gaps |
+
+### Default theme
+
+`Theme.Default` is a built-in light theme you can use as-is or as a starting point:
+
+```csharp
+Theme.Default
+// PrimaryColor    #6200EE
+// SecondaryColor  #03DAC6
+// BackgroundColor #FFFFFF
+// SurfaceColor    #F5F5F5
+// OnPrimaryColor  #FFFFFF
+// ErrorColor      #B00020
+// PrimaryTextColor    #212121
+// SecondaryTextColor  #757575
+// DisabledTextColor   #BDBDBD
+// FontSize        14
+// FontSizeSmall   12
+// FontSizeLarge   20
+// BorderRadius    4
+// Spacing         8
+```
+
+## Creating a custom theme
+
+Because `Theme` is a `record`, you can create a fully custom instance or derive one from `Theme.Default` using `with` expressions:
+
+```csharp
+// Full custom theme
+var darkTheme = new Theme
+{
+    PrimaryColor    = FrameColor.FromHex("#BB86FC"),
+    SecondaryColor  = FrameColor.FromHex("#03DAC6"),
+    BackgroundColor = FrameColor.FromHex("#121212"),
+    SurfaceColor    = FrameColor.FromHex("#1E1E1E"),
+    OnPrimaryColor  = FrameColor.FromHex("#000000"),
+    ErrorColor      = FrameColor.FromHex("#CF6679"),
+    PrimaryTextColor    = FrameColor.FromHex("#FFFFFF"),
+    SecondaryTextColor  = FrameColor.FromHex("#BBBBBB"),
+    DisabledTextColor   = FrameColor.FromHex("#555555"),
+    FontSize        = 14f,
+    FontSizeSmall   = 12f,
+    FontSizeLarge   = 20f,
+    BorderRadius    = 8f,
+    Spacing         = 8f,
+};
+
+// Or override only the tokens you care about
+var brandedTheme = Theme.Default with
+{
+    PrimaryColor = FrameColor.FromHex("#FF6B35"),
+    BorderRadius = 12f,
+};
+```
+
+## Providing a theme
+
+Wrap any subtree with `ThemeProvider` to make a theme available to every descendant:
+
+```csharp
+using Fram3.UI.Elements.Theme;
+using Fram3.UI.Styling;
+
+new ThemeProvider(
+    theme: darkTheme,
+    child: new MyApp()
+)
+```
+
+`ThemeProvider` is an `InheritedElement`. When the parent rebuilds with a different `Theme` instance, all descendants that read the theme are automatically scheduled for a rebuild.
+
+The most common place to put a `ThemeProvider` is at the top of your tree, inside `AppRoot.CreateRoot`:
+
+```csharp
+public sealed class MyApp : AppRoot
+{
+    private static readonly Theme _theme = Theme.Default with
+    {
+        PrimaryColor = FrameColor.FromHex("#FF6B35"),
+    };
+
+    protected override Element CreateRoot() =>
+        new ThemeProvider(
+            theme: _theme,
+            child: new RootPage()
+        );
+}
+```
+
+### Nested providers
+
+You can nest `ThemeProvider` elements. Each descendant reads the nearest ancestor provider. This is useful for applying a localized style override -- for example, giving a modal a different surface color without touching the global theme.
+
+```csharp
+new ThemeProvider(
+    theme: Theme.Default,
+    child: new Column
+    {
+        Children = new Element[]
+        {
+            new MainContent(),
+            new ThemeProvider(
+                theme: Theme.Default with { SurfaceColor = FrameColor.FromHex("#2A2A2A") },
+                child: new SidePanel()
+            ),
+        }
+    }
+)
+```
+
+## Consuming a theme
+
+Call `ThemeConsumer.Of(context)` inside any `Build` method to read the nearest theme. If no `ThemeProvider` is in scope, `Theme.Default` is returned automatically.
+
+```csharp
+using Fram3.UI.Core;
+using Fram3.UI.Elements.Content;
+using Fram3.UI.Elements.Layout;
+using Fram3.UI.Elements.Theme;
+
+public sealed class PrimaryButton : StatelessElement
+{
+    private readonly string _label;
+    private readonly Action _onPressed;
+
+    public PrimaryButton(string label, Action onPressed)
+    {
+        _label = label;
+        _onPressed = onPressed;
+    }
+
+    public override Element Build(BuildContext context)
+    {
+        var theme = ThemeConsumer.Of(context);
+
+        return new Container(
+            decoration: new BoxDecoration(
+                Color: theme.PrimaryColor,
+                BorderRadius: Fram3.UI.Styling.BorderRadius.All(theme.BorderRadius)
+            ),
+            padding: EdgeInsets.Symmetric(
+                vertical: theme.Spacing,
+                horizontal: theme.Spacing * 2
+            ),
+            child: new Text(
+                _label,
+                color: theme.OnPrimaryColor,
+                fontSize: theme.FontSize
+            )
+        );
+    }
+}
+```
+
+## Switching themes at runtime
+
+Hold the active theme in a `StatefulElement` (or a `Cubit`) and rebuild the `ThemeProvider` with the new value. Because `Theme` is a record, equality comparison is value-based -- Fram3 will only propagate a rebuild when the theme actually changes.
+
+```csharp
+public sealed class ThemeSwitcher : StatefulElement
+{
+    public override State CreateState() => new ThemeSwitcherState();
+
+    private sealed class ThemeSwitcherState : State<ThemeSwitcher>
+    {
+        private bool _dark;
+
+        public override Element Build(BuildContext context)
+        {
+            var theme = _dark ? DarkTheme : Theme.Default;
+
+            return new ThemeProvider(
+                theme: theme,
+                child: new Column
+                {
+                    Children = new Element[]
+                    {
+                        new MyContent(),
+                        new Button(
+                            label: _dark ? "Switch to light" : "Switch to dark",
+                            onPressed: () => SetState(() => _dark = !_dark)
+                        ),
+                    }
+                }
+            );
+        }
+
+        private static readonly Theme DarkTheme = new Theme
+        {
+            PrimaryColor    = FrameColor.FromHex("#BB86FC"),
+            SecondaryColor  = FrameColor.FromHex("#03DAC6"),
+            BackgroundColor = FrameColor.FromHex("#121212"),
+            SurfaceColor    = FrameColor.FromHex("#1E1E1E"),
+            OnPrimaryColor  = FrameColor.FromHex("#000000"),
+            ErrorColor      = FrameColor.FromHex("#CF6679"),
+            PrimaryTextColor    = FrameColor.FromHex("#FFFFFF"),
+            SecondaryTextColor  = FrameColor.FromHex("#BBBBBB"),
+            DisabledTextColor   = FrameColor.FromHex("#555555"),
+            FontSize        = 14f,
+            FontSizeSmall   = 12f,
+            FontSizeLarge   = 20f,
+            BorderRadius    = 8f,
+            Spacing         = 8f,
+        };
+    }
+}
+```
+
+## Summary
+
+- `Theme` holds all design tokens. Use `Theme.Default` as a starting point and `with { }` to override tokens.
+- `ThemeProvider` pushes a theme into the tree. Nest multiple providers for scoped overrides.
+- `ThemeConsumer.Of(context)` reads the nearest theme from any `Build` method. Falls back to `Theme.Default`.
+- Changing the theme instance on a `ThemeProvider` triggers automatic rebuilds of all dependents.

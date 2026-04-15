@@ -1,0 +1,188 @@
+---
+title: Navigation
+description: Build multi-screen UIs with Navigator, named routes, push/pop, and argument passing.
+---
+
+# Navigation
+
+Fram3 provides a stack-based navigator that manages multiple named screens entirely in C#. You declare your routes up front, mount a `Navigator` element, and navigate imperatively from any descendant using a `NavigatorHandle`.
+
+## Core concepts
+
+- **`Navigator`** -- a `StatefulElement` that owns the route stack and renders the top route as its content.
+- **`NavigatorHandle`** -- an interface with `Push`, `Pop`, and `CanPop`. Obtained from the tree via `context.GetInherited<NavigatorScope>().Navigator`.
+- **`NavigatorScope`** -- an `InheritedElement` that carries the `NavigatorHandle` down the tree. Created automatically by `Navigator`; you never instantiate it yourself.
+
+## Defining routes
+
+Routes are a `IReadOnlyDictionary<string, Func<BuildContext, Element>>`. Each key is a route name string; each value is a builder that receives the current `BuildContext` and returns the element tree for that screen.
+
+```csharp
+using System.Collections.Generic;
+using Fram3.UI.Core;
+using Fram3.UI.Navigation;
+
+var routes = new Dictionary<string, Func<BuildContext, Element>>
+{
+    ["/"]        = (context) => new HomeScreen(),
+    ["/settings"] = (context) => new SettingsScreen(),
+    ["/profile"]  = (context) => new ProfileScreen(),
+};
+```
+
+Route names are arbitrary strings. Using a path-like convention (`/`, `/settings`) is recommended for readability but not required.
+
+## Mounting the navigator
+
+Pass your routes dictionary and the name of the initial route to the `Navigator` constructor:
+
+```csharp
+using Fram3.UI.Navigation;
+using Fram3.UI.Rendering;
+
+public sealed class MyApp : AppRoot
+{
+    protected override Element CreateRoot() =>
+        new Navigator(
+            routes: new Dictionary<string, Func<BuildContext, Element>>
+            {
+                ["/"]        = (context) => new HomeScreen(),
+                ["/settings"] = (context) => new SettingsScreen(),
+            },
+            initialRoute: "/"
+        );
+}
+```
+
+`initialRoute` must match a key in `routes`. Passing an unregistered name throws an `ArgumentException` at construction time.
+
+## Accessing the navigator handle
+
+From any descendant, retrieve the `NavigatorHandle` via the inherited element lookup:
+
+```csharp
+var nav = context.GetInherited<NavigatorScope>().Navigator;
+```
+
+You can then call:
+
+| Method / Property | Description |
+|---|---|
+| `nav.Push(routeName)` | Pushes a named route onto the stack |
+| `nav.Push(routeName, arguments)` | Pushes a route and attaches an arguments object |
+| `nav.Pop()` | Removes the top route from the stack. No-op when `CanPop` is false |
+| `nav.CanPop` | `true` when there is more than one route on the stack |
+
+## Navigating between screens
+
+```csharp
+public sealed class HomeScreen : StatelessElement
+{
+    public override Element Build(BuildContext context)
+    {
+        var nav = context.GetInherited<NavigatorScope>().Navigator;
+
+        return new Column
+        {
+            Children = new Element[]
+            {
+                new Text("Home"),
+                new Button(
+                    label: "Go to Settings",
+                    onPressed: () => nav.Push("/settings")
+                ),
+            }
+        };
+    }
+}
+```
+
+```csharp
+public sealed class SettingsScreen : StatelessElement
+{
+    public override Element Build(BuildContext context)
+    {
+        var nav = context.GetInherited<NavigatorScope>().Navigator;
+
+        return new Column
+        {
+            Children = new Element[]
+            {
+                new Text("Settings"),
+                new Button(
+                    label: "Back",
+                    onPressed: () => nav.Pop()
+                ),
+            }
+        };
+    }
+}
+```
+
+## Passing arguments to a route
+
+Pass any object as the second argument to `Push`. The builder for that route receives the `BuildContext`; to consume the arguments you can read them from a shared source (e.g. a `Provider`) or from the stateful element that owns the navigator.
+
+A simple pattern is to use a cubit or a state field to hold the pending arguments before pushing, then read them in the route builder via closure:
+
+```csharp
+public sealed class ProductListScreen : StatefulElement
+{
+    public override State CreateState() => new ProductListState();
+
+    private sealed class ProductListState : State<ProductListScreen>
+    {
+        private int _selectedId;
+
+        public override Element Build(BuildContext context)
+        {
+            var nav = context.GetInherited<NavigatorScope>().Navigator;
+
+            return new Navigator(
+                routes: new Dictionary<string, Func<BuildContext, Element>>
+                {
+                    ["/list"]   = (_) => new ProductList(onSelect: id =>
+                    {
+                        SetState(() => _selectedId = id);
+                        nav.Push("/detail");
+                    }),
+                    ["/detail"] = (_) => new ProductDetail(productId: _selectedId),
+                },
+                initialRoute: "/list"
+            );
+        }
+    }
+}
+```
+
+For more structured argument passing, use a `Provider` or `Cubit` scoped above the navigator so route builders can read it directly from context.
+
+## Back navigation
+
+`Pop()` removes the topmost route. It is safe to call unconditionally -- when `CanPop` is `false` (only the initial route remains), `Pop()` does nothing.
+
+```csharp
+if (nav.CanPop)
+{
+    nav.Pop();
+}
+
+// or just:
+nav.Pop();
+```
+
+## Replacing the navigator dynamically
+
+`Navigator` is a `StatefulElement`. You can swap out the routes dictionary by rebuilding with a new `Navigator` instance, for example when authentication state changes and you want to replace the entire route map.
+
+## Limitations
+
+- No animated transitions between routes. Routes are swapped synchronously.
+- No support for named route parameters (e.g. `/products/:id`) out of the box. Handle parameterized navigation with state or providers as shown above.
+- There is no global navigator singleton. Each `Navigator` instance is independent and scoped to its subtree.
+
+## Summary
+
+- Declare routes as a `Dictionary<string, Func<BuildContext, Element>>` and pass them to `Navigator` along with an `initialRoute`.
+- Read the handle from any descendant with `context.GetInherited<NavigatorScope>().Navigator`.
+- Use `Push(routeName)` to go forward and `Pop()` to go back. Check `CanPop` if you need to know whether going back is possible.

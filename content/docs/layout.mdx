@@ -1,0 +1,326 @@
+---
+title: Layout
+description: Arrange elements on screen with Column, Row, Stack, Container, Padding, Expanded, SizedBox, Center, and Wrap.
+---
+
+# Layout
+
+All layout in Fram3 is done in pure C#. There are no UXML files, no USS stylesheets, and no inspector-based layout editors. Every layout element maps directly to UIToolkit's flex-based layout engine.
+
+## EdgeInsets
+
+`EdgeInsets` describes insets along four edges. It is used by `Padding`, `Margin`, and `Container`.
+
+```csharp
+EdgeInsets.All(16f)                       // 16 on every edge
+EdgeInsets.Symmetric(vertical: 8f, horizontal: 16f)
+EdgeInsets.OnlyTop(8f)
+EdgeInsets.OnlyRight(4f)
+EdgeInsets.OnlyBottom(8f)
+EdgeInsets.OnlyLeft(4f)
+EdgeInsets.Zero                           // no insets
+new EdgeInsets(top: 8f, right: 16f, bottom: 8f, left: 16f) // explicit
+```
+
+## Column
+
+`Column` stacks its children vertically (top to bottom).
+
+```csharp
+new Column
+{
+    Children = new Element[]
+    {
+        new Text("First"),
+        new Text("Second"),
+        new Text("Third"),
+    }
+}
+```
+
+### Alignment
+
+`MainAxisAlignment` controls distribution along the vertical axis. `CrossAxisAlignment` controls alignment on the horizontal axis.
+
+```csharp
+new Column(
+    mainAxisAlignment: MainAxisAlignment.SpaceBetween,
+    crossAxisAlignment: CrossAxisAlignment.Center
+)
+{
+    Children = new Element[] { ... }
+}
+```
+
+Available `MainAxisAlignment` values: `Start`, `End`, `Center`, `SpaceBetween`, `SpaceAround`, `SpaceEvenly`.
+
+Available `CrossAxisAlignment` values: `Start`, `End`, `Center`, `Stretch`.
+
+## Row
+
+`Row` lays out its children horizontally (left to right). The API is identical to `Column` with the axes swapped.
+
+```csharp
+new Row(
+    mainAxisAlignment: MainAxisAlignment.SpaceBetween,
+    crossAxisAlignment: CrossAxisAlignment.Center
+)
+{
+    Children = new Element[]
+    {
+        new Text("Left"),
+        new Text("Right"),
+    }
+}
+```
+
+`MainAxisAlignment` here controls horizontal distribution; `CrossAxisAlignment` controls vertical alignment.
+
+## Expanded
+
+`Expanded` wraps a single child and causes it to grow along the main axis of its parent `Column` or `Row`, consuming the remaining free space. Multiple `Expanded` children divide the space proportionally by their `Flex` factor (default `1`).
+
+```csharp
+new Row
+{
+    Children = new Element[]
+    {
+        new Expanded(flex: 2f) { Child = new Text("Two thirds") },
+        new Expanded(flex: 1f) { Child = new Text("One third") },
+    }
+}
+```
+
+## Stack
+
+`Stack` layers its children on top of each other using absolute positioning. Children are painted in order; later children appear on top of earlier ones.
+
+```csharp
+new Stack
+{
+    Children = new Element[]
+    {
+        new Container(decoration: new BoxDecoration(Color: FrameColor.FromHex("#E0E0E0"))),
+        new Center { Child = new Text("Centered overlay") },
+    }
+}
+```
+
+`Stack` is useful for overlays, badges, and layered UI surfaces.
+
+## Padding
+
+`Padding` insets its single child by the given `EdgeInsets`.
+
+```csharp
+new Padding(padding: EdgeInsets.All(16f))
+{
+    Child = new Text("Padded text")
+}
+```
+
+## Container
+
+`Container` combines decoration, sizing, and padding in a single element. All parameters are optional.
+
+```csharp
+new Container(
+    decoration: new BoxDecoration(
+        Color: FrameColor.FromHex("#6200EE"),
+        BorderRadius: BorderRadius.All(8f)
+    ),
+    width: 200f,
+    height: 48f,
+    padding: EdgeInsets.Symmetric(vertical: 8f, horizontal: 16f)
+)
+{
+    Child = new Text("Hello")
+}
+```
+
+Used without a child, `Container` renders as a styled box with no content:
+
+```csharp
+new Container(
+    width: 64f,
+    height: 64f,
+    decoration: new BoxDecoration(Color: FrameColor.FromHex("#FF6B35"))
+)
+```
+
+### BoxDecoration
+
+`BoxDecoration` is a `sealed record` accepted by `Container`:
+
+```csharp
+new BoxDecoration(
+    Color: FrameColor.FromHex("#FFFFFF"),
+    Border: new Border(color: FrameColor.FromHex("#E0E0E0"), width: 1f),
+    BorderRadius: BorderRadius.All(8f),
+    Shadow: new Shadow(color: FrameColor.FromHex("#00000033"), blur: 4f, offsetY: 2f)
+)
+```
+
+All fields are optional and default to `null` (no fill, no border, sharp corners, no shadow).
+
+### BorderRadius
+
+`BorderRadius` controls corner rounding on a `BoxDecoration`:
+
+```csharp
+BorderRadius.All(8f)                         // same radius on every corner
+BorderRadius.OnlyTop(8f)                     // top-left and top-right only
+BorderRadius.OnlyBottom(8f)                  // bottom-left and bottom-right only
+BorderRadius.Horizontal(left: 8f, right: 0f) // asymmetric left / right
+BorderRadius.Vertical(top: 8f, bottom: 0f)   // asymmetric top / bottom
+BorderRadius.Only(topLeft: 8f, bottomRight: 8f) // individual corners
+BorderRadius.Zero                            // sharp rectangle
+```
+
+## SizedBox
+
+`SizedBox` constrains its child to a fixed size. Without a child it acts as a fixed-size spacer.
+
+```csharp
+// Fixed spacer between two elements
+new Column
+{
+    Children = new Element[]
+    {
+        new Text("Above"),
+        SizedBox.FromSize(height: 16f),
+        new Text("Below"),
+    }
+}
+
+// Square box
+SizedBox.Square(48f)
+
+// Expand to fill all available space
+SizedBox.Expand()
+```
+
+## Center
+
+`Center` centers its single child both horizontally and vertically within the available space.
+
+```csharp
+new Center
+{
+    Child = new Text("Centered")
+}
+```
+
+This is equivalent to a flex container with `alignItems: center` and `justifyContent: center`.
+
+## Wrap
+
+`Wrap` flows its children in a horizontal row that wraps onto the next line when there is not enough horizontal space. Useful for tag lists, chip bars, and icon grids.
+
+```csharp
+new Wrap
+{
+    Children = tags.Select(tag => new TagChip(tag)).ToArray<Element>()
+}
+```
+
+## Common patterns
+
+### Full-screen scaffold
+
+```csharp
+new Container(
+    decoration: new BoxDecoration(Color: theme.BackgroundColor),
+    width: float.NaN,   // unconstrained = fill parent
+    height: float.NaN
+)
+{
+    Child = new Column
+    {
+        Children = new Element[]
+        {
+            new AppBar(),
+            new Expanded { Child = new PageContent() },
+            new BottomBar(),
+        }
+    }
+}
+```
+
+### Card
+
+```csharp
+new Container(
+    decoration: new BoxDecoration(
+        Color: theme.SurfaceColor,
+        BorderRadius: BorderRadius.All(theme.BorderRadius),
+        Shadow: new Shadow(color: FrameColor.FromHex("#0000001A"), blur: 8f, offsetY: 2f)
+    ),
+    padding: EdgeInsets.All(theme.Spacing * 2)
+)
+{
+    Child = new Column
+    {
+        Children = new Element[]
+        {
+            new Text("Card title"),
+            SizedBox.FromSize(height: theme.Spacing),
+            new Text("Card body text"),
+        }
+    }
+}
+```
+
+### Horizontal toolbar
+
+```csharp
+new Row(
+    mainAxisAlignment: MainAxisAlignment.SpaceBetween,
+    crossAxisAlignment: CrossAxisAlignment.Center
+)
+{
+    Children = new Element[]
+    {
+        new IconButton(icon: Icons.Menu),
+        new Text("My App"),
+        new IconButton(icon: Icons.Search),
+    }
+}
+```
+
+### Overlay badge
+
+```csharp
+new Stack
+{
+    Children = new Element[]
+    {
+        new IconButton(icon: Icons.Bell),
+        new Container(
+            decoration: new BoxDecoration(
+                Color: FrameColor.FromHex("#FF0000"),
+                BorderRadius: BorderRadius.All(8f)
+            ),
+            width: 16f,
+            height: 16f
+        )
+        {
+            Child = new Center { Child = new Text("3") }
+        },
+    }
+}
+```
+
+## Summary
+
+| Element | Purpose |
+|---|---|
+| `Column` | Vertical flex container |
+| `Row` | Horizontal flex container |
+| `Expanded` | Flex-grow child inside `Column` or `Row` |
+| `Stack` | Absolute layering |
+| `Padding` | Insets a child by `EdgeInsets` |
+| `Container` | Decoration + size + padding in one element |
+| `SizedBox` | Fixed-size box or spacer |
+| `Center` | Centers a child in both axes |
+| `Wrap` | Wrapping horizontal flow |

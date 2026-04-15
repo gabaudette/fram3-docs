@@ -1,0 +1,297 @@
+---
+title: State Management
+description: Local state with StatefulElement, shared state with Provider and Consumer, and global reactive state with Cubit and Store.
+---
+
+# State Management
+
+Fram3 supports three layers of state management. You pick the right one based on how widely the state needs to be shared and how it changes over time.
+
+| Layer | When to use |
+|---|---|
+| Local state (`StatefulElement`) | State owned by a single element and its subtree |
+| Shared state (`Provider` / `Consumer`) | State passed down the tree without prop-drilling |
+| Global reactive state (`Cubit` / `Store`) | Application-wide state that drives many unrelated parts of the UI |
+
+## Local state with StatefulElement
+
+`StatefulElement` is the base class for any element that holds mutable state. The framework calls `CreateState()` exactly once when the element is first mounted and keeps the state object alive across rebuilds.
+
+```csharp
+public sealed class CounterElement : StatefulElement
+{
+    public override State CreateState() => new CounterState();
+
+    private sealed class CounterState : State<CounterElement>
+    {
+        private int _count;
+
+        public override Element Build(BuildContext context)
+        {
+            return new Column
+            {
+                Children = new Element[]
+                {
+                    new Text($"Count: {_count}"),
+                    new Button(
+                        label: "Increment",
+                        onPressed: () => SetState(() => _count++)),
+                }
+            };
+        }
+    }
+}
+```
+
+### State lifecycle
+
+| Method | Called when |
+|---|---|
+| `InitState()` | State is first attached to the tree. Safe to read `Context` and `Element` here. |
+| `Build(context)` | Framework needs a fresh description of the subtree. Called after every `SetState`. |
+| `DidUpdateElement(oldElement)` | Parent rebuilt and provided a new element of the same type and key. Use this to react to changed configuration. |
+| `Dispose()` | Element is removed from the tree. Release subscriptions, timers, and other resources here. |
+
+### SetState
+
+`SetState(action)` runs the provided action synchronously, then schedules a rebuild of the subtree. Only the elements that actually changed are patched in the underlying visual tree.
+
+```csharp
+SetState(() => _count++);
+```
+
+Calling `SetState` after `Dispose` throws an `InvalidOperationException`.
+
+### Stateless elements
+
+If an element has no mutable state, inherit from `StatelessElement` and implement `Build`:
+
+```csharp
+public sealed class Greeting : StatelessElement
+{
+    private readonly string _name;
+
+    public Greeting(string name) { _name = name; }
+
+    public override Element Build(BuildContext context) =>
+        new Text($"Hello, {_name}");
+}
+```
+
+## Shared state with Provider and Consumer
+
+`Provider<T>` is an `InheritedElement` that makes a value available to all descendants without manually threading it through constructors. `Consumer<T>` reads that value and rebuilds when it changes.
+
+### Providing a value
+
+```csharp
+var userProfile = new UserProfile(name: "Gabriel", level: 42);
+
+new Provider<UserProfile>(
+    value: userProfile,
+    child: new ProfilePage()
+)
+```
+
+When the parent rebuilds with a different value instance, all `Consumer<UserProfile>` descendants are scheduled for a rebuild automatically.
+
+### Consuming a value
+
+```csharp
+public sealed class PlayerNameBadge : StatelessElement
+{
+    public override Element Build(BuildContext context)
+    {
+        return new Consumer<UserProfile>(
+            builder: (ctx, profile) => new Text(profile.Name)
+        );
+    }
+}
+```
+
+### Reading directly from context
+
+You can also access a provider directly without `Consumer`:
+
+```csharp
+var profile = context.GetInherited<Provider<UserProfile>>().Value;
+```
+
+Use this form when you only need the value at a specific moment (e.g. inside an event handler) and do not need the element to rebuild when the value changes.
+
+## Reactive global state with Cubit
+
+A `Cubit<TState>` is an abstract reactive state machine. Subclass it, add public methods that call the protected `Emit(newState)` method, and pair it with `CubitBuilder` to rebuild UI in response to state changes.
+
+`Emit` is a no-op when `newState` equals the current state (using `EqualityComparer<T>.Default`), so using C# `record` types for state gives you free equality checks and suppressed redundant rebuilds.
+
+### Defining a cubit
+
+```csharp
+public sealed record CounterState(int Count);
+
+public sealed class CounterCubit : Cubit<CounterState>
+{
+    public CounterCubit() : base(new CounterState(0)) { }
+
+    public void Increment() => Emit(new CounterState(State.Count + 1));
+    public void Decrement() => Emit(new CounterState(State.Count - 1));
+    public void Reset()     => Emit(new CounterState(0));
+}
+```
+
+### Providing a cubit
+
+Cubits are provided with the same `Provider<T>` used for ordinary values. Create the cubit once -- typically in a parent `StatefulElement` -- and provide it to the subtree:
+
+```csharp
+public sealed class CounterPage : StatefulElement
+{
+    public override State CreateState() => new CounterPageState();
+
+    private sealed class CounterPageState : State<CounterPage>
+    {
+        private readonly CounterCubit _cubit = new();
+
+        public override Element Build(BuildContext context) =>
+            new Provider<CounterCubit>(
+                value: _cubit,
+                child: new CounterView()
+            );
+
+        public override void Dispose() => _cubit.Dispose();
+    }
+}
+```
+
+Dispose the cubit in `Dispose()` so listeners are cleared when the element leaves the tree.
+
+### Rebuilding with CubitBuilder
+
+`CubitBuilder<TCubit, TState>` subscribes to the cubit and calls its builder whenever the state changes:
+
+```csharp
+public sealed class CounterView : StatelessElement
+{
+    public override Element Build(BuildContext context) =>
+        new CubitBuilder<CounterCubit, CounterState>(
+            builder: (ctx, state) => new Column
+            {
+                Children = new Element[]
+                {
+                    new Text($"Count: {state.Count}"),
+                    new Button(
+                        label: "+",
+                        onPressed: () =>
+                            ctx.GetInherited<Provider<CounterCubit>>().Value.Increment()
+                    ),
+                }
+            }
+        );
+}
+```
+
+### Optimizing with Selector
+
+`Selector<TCubit, TState, TValue>` subscribes to a cubit but only rebuilds when a specific derived value changes. Use it when a large state object has many fields but a particular widget only cares about one of them.
+
+```csharp
+public sealed record AppState(int Count, string UserName, bool IsLoading);
+
+// Only rebuilds when Count changes, ignores UserName and IsLoading changes
+new Selector<AppCubit, AppState, int>(
+    selector: state => state.Count,
+    builder: (ctx, count) => new Text($"Count: {count}")
+)
+```
+
+## Redux-style global state with Store
+
+`Store<TState>` is a `Cubit` that constrains all mutations to a single pure reducer function. It follows the Redux pattern: dispatch a `FrameAction`, the reducer maps `(currentState, action) => nextState`, and `Emit` is called with the result.
+
+### Defining actions
+
+Subclass `FrameAction` for each action type:
+
+```csharp
+public sealed class IncrementAction : FrameAction { }
+public sealed class DecrementAction : FrameAction { }
+public sealed class ResetAction     : FrameAction { }
+```
+
+### Defining the reducer
+
+A reducer is a pure `Func<TState, FrameAction, TState>`:
+
+```csharp
+public sealed record CounterState(int Count);
+
+private static CounterState Reduce(CounterState state, FrameAction action) =>
+    action switch
+    {
+        IncrementAction => state with { Count = state.Count + 1 },
+        DecrementAction => state with { Count = state.Count - 1 },
+        ResetAction     => new CounterState(0),
+        _               => state,
+    };
+```
+
+### Creating and providing the store
+
+```csharp
+public sealed class MyApp : AppRoot
+{
+    private readonly Store<CounterState> _store =
+        new(new CounterState(0), Reduce);
+
+    protected override Element CreateRoot() =>
+        new Provider<Store<CounterState>>(
+            value: _store,
+            child: new CounterPage()
+        );
+}
+```
+
+### Dispatching actions and consuming state
+
+```csharp
+public sealed class CounterPage : StatelessElement
+{
+    public override Element Build(BuildContext context)
+    {
+        var store = context.GetInherited<Provider<Store<CounterState>>>().Value;
+
+        return new CubitBuilder<Store<CounterState>, CounterState>(
+            builder: (ctx, state) => new Column
+            {
+                Children = new Element[]
+                {
+                    new Text($"Count: {state.Count}"),
+                    new Button(
+                        label: "+",
+                        onPressed: () => store.Dispatch(new IncrementAction())
+                    ),
+                    new Button(
+                        label: "-",
+                        onPressed: () => store.Dispatch(new DecrementAction())
+                    ),
+                    new Button(
+                        label: "Reset",
+                        onPressed: () => store.Dispatch(new ResetAction())
+                    ),
+                }
+            }
+        );
+    }
+}
+```
+
+## Choosing the right approach
+
+**Use `StatefulElement`** when the state is only relevant to one element and its direct children. Toggle state, form field values, and animation progress are typical examples.
+
+**Use `Provider` / `Consumer`** when you have a value that needs to be available across many levels of the tree but does not change reactively on its own -- for example, a configuration object or a service instance.
+
+**Use `Cubit`** when you have logic that transitions through states in response to events and multiple parts of the UI need to react to those transitions independently.
+
+**Use `Store`** when you want strict unidirectional data flow enforced by a reducer, or when the state transitions are complex enough that having a central reducer makes them easier to trace and test.
