@@ -5,7 +5,7 @@ import 'nextra-theme-docs/style.css'
 
 export const metadata = {
   title: {
-    template: '%s | Fram3',
+    template: '%s | Fram3 Docs',
     default: 'Fram3 — Declarative UI for Unity',
   },
   description: 'Fram3 is a declarative UI framework for Unity built on UIToolkit.',
