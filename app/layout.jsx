@@ -4,10 +4,7 @@ import { getPageMap } from 'nextra/page-map'
 import 'nextra-theme-docs/style.css'
 
 export const metadata = {
-  title: {
-    template: '%s | Fram3 Docs',
-    default: 'Fram3 — Declarative UI for Unity',
-  },
+  title: 'Fram3 Docs',
   description: 'Fram3 is a declarative UI framework for Unity built on UIToolkit.',
 }
 
