@@ -1,21 +1,24 @@
 ---
 title: Navigation
-description: Build multi-screen UIs with Navigator, named routes, push/pop, and argument passing.
+description: In-screen menu navigation with Navigator and cross-scene loading with SceneNavigator.
 ---
 
 # Navigation
 
-Fram3 provides a stack-based navigator that manages multiple named screens entirely in C#. You declare your routes up front, mount a `Navigator` element, and navigate imperatively from any descendant using a `NavigatorHandle`.
+Fram3 has two distinct navigation systems that address different needs in a game UI:
 
-## Core concepts
+- **In-screen navigation** (`Navigator`) -- a stack-based router that swaps UI screens within the same Unity scene. Use it for menus, sub-menus, overlays, and any flow that lives inside a single scene.
+- **Scene navigation** (`SceneNavigator`) -- a global static API that loads a new Unity scene, replacing the current one. Use it to move between major game states: main menu to gameplay, gameplay to results screen, and so on.
 
-- **`Navigator`** -- a `StatefulElement` that owns the route stack and renders the top route as its content.
-- **`NavigatorHandle`** -- an interface with `Push`, `Pop`, and `CanPop`. Obtained from the tree via `context.GetInherited<NavigatorScope>().Navigator`.
-- **`NavigatorScope`** -- an `InheritedElement` that carries the `NavigatorHandle` down the tree. Created automatically by `Navigator`; you never instantiate it yourself.
+---
 
-## Defining routes
+## In-screen navigation with Navigator
 
-Routes are a `IReadOnlyDictionary<string, Func<BuildContext, Element>>`. Each key is a route name string; each value is a builder that receives the current `BuildContext` and returns the element tree for that screen.
+`Navigator` is a `StatefulElement` that manages a stack of named routes. Only the topmost route is rendered at any given time. Descendants push and pop routes using a `NavigatorHandle` obtained from the element tree.
+
+### Defining routes
+
+Routes are a `IReadOnlyDictionary<string, Func<BuildContext, Element>>`. Each key is a route name; each value is a builder that receives the current `BuildContext` and returns the element tree for that screen.
 
 ```csharp
 using System.Collections.Generic;
@@ -24,39 +27,40 @@ using Fram3.UI.Navigation;
 
 var routes = new Dictionary<string, Func<BuildContext, Element>>
 {
-    ["/"]        = (context) => new HomeScreen(),
-    ["/settings"] = (context) => new SettingsScreen(),
-    ["/profile"]  = (context) => new ProfileScreen(),
+    ["main-menu"]    = (context) => new MainMenuScreen(),
+    ["settings"]     = (context) => new SettingsScreen(),
+    ["character"]    = (context) => new CharacterSelectScreen(),
 };
 ```
 
-Route names are arbitrary strings. Using a path-like convention (`/`, `/settings`) is recommended for readability but not required.
+Route names are arbitrary strings. Short, descriptive names work better here than path-like conventions -- this is a game menu, not a web app.
 
-## Mounting the navigator
+### Mounting the navigator
 
-Pass your routes dictionary and the name of the initial route to the `Navigator` constructor:
+Pass the routes and an `initialRoute` to the `Navigator` constructor. Place it at the root of your `AppRoot`:
 
 ```csharp
 using Fram3.UI.Navigation;
 using Fram3.UI.Rendering;
 
-public sealed class MyApp : AppRoot
+public sealed class MainMenuApp : AppRoot
 {
     protected override Element CreateRoot() =>
         new Navigator(
             routes: new Dictionary<string, Func<BuildContext, Element>>
             {
-                ["/"]        = (context) => new HomeScreen(),
-                ["/settings"] = (context) => new SettingsScreen(),
+                ["main-menu"]  = (_) => new MainMenuScreen(),
+                ["settings"]   = (_) => new SettingsScreen(),
+                ["character"]  = (_) => new CharacterSelectScreen(),
             },
-            initialRoute: "/"
+            initialRoute: "main-menu"
         );
 }
 ```
 
 `initialRoute` must match a key in `routes`. Passing an unregistered name throws an `ArgumentException` at construction time.
 
-## Accessing the navigator handle
+### Accessing the navigator handle
 
 From any descendant, retrieve the `NavigatorHandle` via the inherited element lookup:
 
@@ -64,32 +68,40 @@ From any descendant, retrieve the `NavigatorHandle` via the inherited element lo
 var nav = context.GetInherited<NavigatorScope>().Navigator;
 ```
 
-You can then call:
-
 | Method / Property | Description |
 |---|---|
 | `nav.Push(routeName)` | Pushes a named route onto the stack |
 | `nav.Push(routeName, arguments)` | Pushes a route and attaches an arguments object |
-| `nav.Pop()` | Removes the top route from the stack. No-op when `CanPop` is false |
+| `nav.Pop()` | Removes the top route. No-op when `CanPop` is false |
 | `nav.CanPop` | `true` when there is more than one route on the stack |
 
-## Navigating between screens
+### Example: main menu with sub-menus
+
+A typical game main menu has a root screen with buttons that open nested screens. Each button calls `nav.Push`; each back button calls `nav.Pop`.
 
 ```csharp
-public sealed class HomeScreen : StatelessElement
+public sealed class MainMenuScreen : StatelessElement
 {
     public override Element Build(BuildContext context)
     {
         var nav = context.GetInherited<NavigatorScope>().Navigator;
 
-        return new Column
+        return new Column(mainAxisAlignment: MainAxisAlignment.Center)
         {
             Children = new Element[]
             {
-                new Text("Home"),
+                new Text("APEX CHRONICLES"),
                 new Button(
-                    label: "Go to Settings",
-                    onPressed: () => nav.Push("/settings")
+                    label: "Play",
+                    onPressed: () => nav.Push("character")
+                ),
+                new Button(
+                    label: "Settings",
+                    onPressed: () => nav.Push("settings")
+                ),
+                new Button(
+                    label: "Quit",
+                    onPressed: () => Application.Quit()
                 ),
             }
         };
@@ -109,6 +121,8 @@ public sealed class SettingsScreen : StatelessElement
             Children = new Element[]
             {
                 new Text("Settings"),
+                new AudioSettings(),
+                new VideoSettings(),
                 new Button(
                     label: "Back",
                     onPressed: () => nav.Pop()
@@ -119,20 +133,18 @@ public sealed class SettingsScreen : StatelessElement
 }
 ```
 
-## Passing arguments to a route
+### Passing data between routes
 
-Pass any object as the second argument to `Push`. The builder for that route receives the `BuildContext`; to consume the arguments you can read them from a shared source (e.g. a `Provider`) or from the stateful element that owns the navigator.
-
-A simple pattern is to use a cubit or a state field to hold the pending arguments before pushing, then read them in the route builder via closure:
+There is no built-in typed argument system. The cleanest pattern is to hold the data in a state field or a `Cubit` scoped above the navigator, then read it in the route builder via a closure or `context.GetInherited`.
 
 ```csharp
-public sealed class ProductListScreen : StatefulElement
+public sealed class CharacterSelectApp : StatefulElement
 {
-    public override State CreateState() => new ProductListState();
+    public override State CreateState() => new CharacterSelectState();
 
-    private sealed class ProductListState : State<ProductListScreen>
+    private sealed class CharacterSelectState : State<CharacterSelectApp>
     {
-        private int _selectedId;
+        private CharacterDefinition? _pending;
 
         public override Element Build(BuildContext context)
         {
@@ -141,48 +153,203 @@ public sealed class ProductListScreen : StatefulElement
             return new Navigator(
                 routes: new Dictionary<string, Func<BuildContext, Element>>
                 {
-                    ["/list"]   = (_) => new ProductList(onSelect: id =>
+                    ["roster"] = (_) => new RosterScreen(onSelect: character =>
                     {
-                        SetState(() => _selectedId = id);
-                        nav.Push("/detail");
+                        SetState(() => _pending = character);
+                        nav.Push("confirm");
                     }),
-                    ["/detail"] = (_) => new ProductDetail(productId: _selectedId),
+                    ["confirm"] = (_) => new ConfirmScreen(character: _pending!),
                 },
-                initialRoute: "/list"
+                initialRoute: "roster"
             );
         }
     }
 }
 ```
 
-For more structured argument passing, use a `Provider` or `Cubit` scoped above the navigator so route builders can read it directly from context.
+### Pause menu overlay
 
-## Back navigation
-
-`Pop()` removes the topmost route. It is safe to call unconditionally -- when `CanPop` is `false` (only the initial route remains), `Pop()` does nothing.
+A common pattern in games is a pause menu that sits on top of the gameplay HUD in a `Stack`. The pause menu itself can be its own `Navigator` so it manages its own sub-screens independently:
 
 ```csharp
-if (nav.CanPop)
+new Stack
 {
-    nav.Pop();
+    Children = new Element[]
+    {
+        new GameplayHud(),
+        new PauseMenuNavigator(),
+    }
 }
-
-// or just:
-nav.Pop();
 ```
 
-## Replacing the navigator dynamically
+```csharp
+public sealed class PauseMenuNavigator : StatefulElement
+{
+    public override State CreateState() => new PauseMenuState();
 
-`Navigator` is a `StatefulElement`. You can swap out the routes dictionary by rebuilding with a new `Navigator` instance, for example when authentication state changes and you want to replace the entire route map.
+    private sealed class PauseMenuState : State<PauseMenuNavigator>
+    {
+        private bool _open;
 
-## Limitations
+        public override Element Build(BuildContext context)
+        {
+            if (!_open)
+            {
+                return new Button(
+                    label: "Pause",
+                    onPressed: () => SetState(() => _open = true)
+                );
+            }
+
+            return new Navigator(
+                routes: new Dictionary<string, Func<BuildContext, Element>>
+                {
+                    ["pause"]    = (_) => new PauseRootScreen(onResume: () => SetState(() => _open = false)),
+                    ["settings"] = (_) => new SettingsScreen(),
+                },
+                initialRoute: "pause"
+            );
+        }
+    }
+}
+```
+
+### Replacing the entire route map
+
+Because `Navigator` is a `StatefulElement`, rebuilding its parent with a new `Navigator` instance swaps out the entire route map. This is useful when the available screens change based on game state -- for example, replacing the pregame lobby navigator with the in-game HUD navigator when a match starts.
+
+### Limitations
 
 - No animated transitions between routes. Routes are swapped synchronously.
-- No support for named route parameters (e.g. `/products/:id`) out of the box. Handle parameterized navigation with state or providers as shown above.
-- There is no global navigator singleton. Each `Navigator` instance is independent and scoped to its subtree.
+- No global navigator singleton. Each `Navigator` instance is scoped to its subtree.
+- No built-in typed argument passing. Use state, closures, or a `Provider` above the navigator.
+
+---
+
+## Scene navigation with SceneNavigator
+
+`SceneNavigator` is a static, context-free API. It wraps Unity's `SceneManager.LoadSceneAsync` and loads the named scene using `LoadSceneMode.Single`, replacing the current scene entirely.
+
+```csharp
+using Fram3.UI.Navigation;
+
+SceneNavigator.GoTo("Gameplay");
+```
+
+The scene name must match a scene registered in **File > Build Settings**. Passing a null or empty string throws an `ArgumentNullException`.
+
+### SceneOperation
+
+`SceneNavigator.GoTo` returns a `SceneOperation` you can use to track the load and react to completion:
+
+| Member | Description |
+|---|---|
+| `Progress` | Normalized load progress in the range [0, 1]. Updated each frame. |
+| `IsCompleted` | `true` once the scene is fully loaded and active. |
+| `Completed` | Event raised exactly once when `IsCompleted` transitions to `true`. |
+
+### Showing a loading screen
+
+A loading screen reads `Progress` each frame to drive a progress bar. Hold the `SceneOperation` in state and call `SetState` each frame to update the display:
+
+```csharp
+public sealed class LoadingScreen : StatefulElement
+{
+    private readonly string _sceneName;
+
+    public LoadingScreen(string sceneName)
+    {
+        _sceneName = sceneName;
+    }
+
+    public override State CreateState() => new LoadingState();
+
+    private sealed class LoadingState : State<LoadingScreen>
+    {
+        private SceneOperation? _operation;
+        private float _progress;
+
+        public override void InitState()
+        {
+            _operation = SceneNavigator.GoTo(Element!._sceneName);
+            _operation.Completed += () => SetState(() => _progress = 1f);
+        }
+
+        public override Element Build(BuildContext context)
+        {
+            if (_operation != null && !_operation.IsCompleted)
+            {
+                SetState(() => _progress = _operation.Progress);
+            }
+
+            return new Column(mainAxisAlignment: MainAxisAlignment.Center)
+            {
+                Children = new Element[]
+                {
+                    new Text("Loading..."),
+                    new ProgressBar(value: _progress),
+                }
+            };
+        }
+    }
+}
+```
+
+### Triggering a scene load from a button
+
+`SceneNavigator` is global and context-free. Call it directly from any button callback or cubit method -- no need to thread a navigator handle through the tree:
+
+```csharp
+new Button(
+    label: "Play",
+    onPressed: () => SceneNavigator.GoTo("Gameplay")
+)
+```
+
+```csharp
+new Button(
+    label: "Main Menu",
+    onPressed: () => SceneNavigator.GoTo("MainMenu")
+)
+```
+
+### Triggering a scene load from a Cubit
+
+For more complex flows -- such as waiting for a network response before loading -- trigger the scene load from inside a cubit method:
+
+```csharp
+public sealed class MatchmakingCubit : Cubit<MatchmakingState>
+{
+    public MatchmakingCubit() : base(new MatchmakingState(Searching: true)) { }
+
+    public async void FindMatch()
+    {
+        var match = await MatchmakingService.FindAsync();
+        Emit(new MatchmakingState(Searching: false, MatchFound: true));
+        SceneNavigator.GoTo("Gameplay");
+    }
+}
+```
+
+---
+
+## Choosing between the two systems
+
+| Scenario | Use |
+|---|---|
+| Main menu to settings to character select | `Navigator` |
+| Opening a pause menu over the HUD | `Navigator` in a `Stack` |
+| Navigating deeper sub-menus (inventory pages, shop categories) | `Navigator` |
+| Starting a match (main menu scene to gameplay scene) | `SceneNavigator` |
+| Returning to main menu after a match ends | `SceneNavigator` |
+| Showing a loading screen between scenes | `SceneNavigator` + `SceneOperation.Progress` |
+
+A common pattern is to combine both: `SceneNavigator` handles the coarse transitions between major game states, while `Navigator` handles all the fine-grained menu flows within each scene.
+
+---
 
 ## Summary
 
-- Declare routes as a `Dictionary<string, Func<BuildContext, Element>>` and pass them to `Navigator` along with an `initialRoute`.
-- Read the handle from any descendant with `context.GetInherited<NavigatorScope>().Navigator`.
-- Use `Push(routeName)` to go forward and `Pop()` to go back. Check `CanPop` if you need to know whether going back is possible.
+- Use `Navigator` for menu stacks that live within a single scene. Mount it at the root of your `AppRoot`, declare all screens as named routes, and call `nav.Push` / `nav.Pop` from any descendant.
+- Use `SceneNavigator.GoTo(sceneName)` to load a Unity scene. The scene name must be in Build Settings. Use the returned `SceneOperation` to track progress or react to completion.
+- The two systems are independent and complementary. Most games use both.
