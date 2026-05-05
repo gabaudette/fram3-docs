@@ -11,17 +11,27 @@ A transparent wrapper that detects pointer gestures on its child subtree. Maps t
 
 ### GestureDetector
 
-Creates an GestureDetector element.
+Creates a GestureDetector element.
 
 | Parameter | Description |
 | --- | --- |
 | `child` | The child element whose area is monitored for gestures. |
-| `onTap` | Callback invoked on tap/click. |
+| `onTap` | Callback invoked on a single tap/click. |
+| `onDoubleTap` | Callback invoked on a double-tap/double-click. |
+| `onLongPress` | Callback invoked when the pointer is held for 500 ms. |
 | `onPointerEnter` | Callback invoked when the pointer enters. |
 | `onPointerExit` | Callback invoked when the pointer exits. |
 | `key` | An optional key for reconciliation identity. |
 
 ## Properties
+
+### OnDoubleTap
+
+Callback invoked when the user double-taps (double-clicks) inside this element's bounds.
+
+### OnLongPress
+
+Callback invoked when the pointer is held down for 500 ms without releasing.
 
 ### OnPointerEnter
 

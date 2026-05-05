@@ -1,11 +1,11 @@
 ﻿---
 title: Icon
-description: "Displays a vector icon asset. Maps to UIToolkit's native Image element with a VectorImage source. Supply either a preloaded (UnityEngine.UIElements.VectorImage) or a project-relative asset path via . When both are provided, takes precedence."
+description: "Displays a vector icon asset. Maps to UIToolkit's native Image element with a VectorImage source. Supply a preloaded , a for Resources.Load (works in player builds), or a project-relative for Editor-only AssetDatabase loading. When multiple are provided, precedence is: first, then , then ."
 ---
 
 # Icon
 
-Displays a vector icon asset. Maps to UIToolkit's native Image element with a VectorImage source. Supply either a preloaded (UnityEngine.UIElements.VectorImage) or a project-relative asset path via . When both are provided, takes precedence.
+Displays a vector icon asset. Maps to UIToolkit's native Image element with a VectorImage source. Supply a preloaded , a for Resources.Load (works in player builds), or a project-relative for Editor-only AssetDatabase loading. When multiple are provided, precedence is: first, then , then .
 
 ## Constructor
 
@@ -15,8 +15,9 @@ Creates an Icon element.
 
 | Parameter | Description |
 | --- | --- |
-| `source` | A preloaded UnityEngine.UIElements.VectorImage. Takes precedence over when both are provided. |
-| `svgPath` | Project-relative path to a .svg asset. Used only when is null. |
+| `source` | A preloaded UnityEngine.UIElements.VectorImage. Takes precedence over all other sources. |
+| `resourcePath` | Path relative to a Resources/ folder. Used when is null. Works in player builds. |
+| `svgPath` | Project-relative path to a .svg asset. Editor only. Used when both and are null. |
 | `width` | Optional explicit width in logical pixels. |
 | `height` | Optional explicit height in logical pixels. |
 | `key` | An optional key for reconciliation identity. |
@@ -27,13 +28,17 @@ Creates an Icon element.
 
 The explicit height in logical pixels. Null means unconstrained.
 
+### ResourcePath
+
+Path relative to any Resources/ folder (e.g. "Icons/star"). Loaded via Resources.Load&lt;VectorImage&gt; — works in player builds. Ignored when Source is non-null.
+
 ### Source
 
-The icon source. Expects a UnityEngine.UIElements.VectorImage at runtime. When set, takes precedence over SvgPath. Null displays nothing unless SvgPath is provided.
+A preloaded UnityEngine.UIElements.VectorImage. Takes precedence over ResourcePath and SvgPath.
 
 ### SvgPath
 
-Project-relative path to a .svg asset (e.g. "Assets/Icons/arrow.svg"). The asset is loaded via AssetDatabase.LoadAssetAtPath&lt;VectorImage&gt; at runtime. Ignored when Source is non-null.
+Project-relative path to a .svg asset (e.g. "Assets/Icons/arrow.svg"). Loaded via AssetDatabase.LoadAssetAtPath — Editor only. Ignored when Source or ResourcePath is non-null.
 
 ### Width
 
