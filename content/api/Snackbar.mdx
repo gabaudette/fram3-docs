@@ -1,17 +1,17 @@
 ﻿---
 title: Snackbar
-description: "A brief notification bar that appears temporarily at the bottom of the screen. Supports an optional action button that the user can tap. Maps to a plain UIToolkit VisualElement styled as a snackbar bar."
+description: "A brief notification bar that appears temporarily at the bottom of the screen. Supports an optional action button that the user can tap. Renders itself using Container, Row, Text, and GestureDetector primitives."
 ---
 
 # Snackbar
 
-A brief notification bar that appears temporarily at the bottom of the screen. Supports an optional action button that the user can tap. Maps to a plain UIToolkit VisualElement styled as a snackbar bar.
+A brief notification bar that appears temporarily at the bottom of the screen. Supports an optional action button that the user can tap. Renders itself using Container, Row, Text, and GestureDetector primitives.
 
 ## Constructor
 
 ### Snackbar
 
-Creates an Snackbar element.
+Creates a Snackbar element.
 
 | Parameter | Description |
 | --- | --- |
@@ -38,4 +38,8 @@ The message text displayed in the snackbar.
 ### OnAction
 
 Callback invoked when the user taps the action button. Only relevant when ActionLabel is non-null.
+
+## Methods
+
+### CreateState
 
