@@ -69,6 +69,8 @@
   'Divider': 'Divider',
   'DividerAxis': 'DividerAxis',
   'Expanded': 'Expanded',
+  'Grid': 'Grid',
+  'IGridElement': 'IGridElement',
   'Margin': 'Margin',
   'Padding': 'Padding',
   'Row': 'Row',

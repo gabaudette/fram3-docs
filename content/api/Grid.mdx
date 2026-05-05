@@ -1,0 +1,46 @@
+﻿---
+title: Grid
+description: "Arranges a sequence of items in a fixed-column grid. Rendered as a leaf element: the painter builds the native UIToolkit VE subtree directly, using explicit flex properties to guarantee equal-width columns."
+---
+
+# Grid
+
+Arranges a sequence of items in a fixed-column grid. Rendered as a leaf element: the painter builds the native UIToolkit VE subtree directly, using explicit flex properties to guarantee equal-width columns.
+
+## Constructor
+
+### Grid
+
+Creates a Grid element.
+
+| Parameter | Description |
+| --- | --- |
+| `columnCount` | Number of columns per row. Must be greater than zero. |
+| `items` | The data source. |
+| `itemBuilder` | Factory that turns one item into an Element. |
+| `columnSpacing` | Gap between cells within a row. |
+| `rowSpacing` | Gap between rows. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### ColumnCount
+
+Number of columns per row.
+
+### ColumnSpacing
+
+Horizontal spacing between cells. Defaults to 0.
+
+### ItemBuilder
+
+Builds the element for a single item.
+
+### Items
+
+The data items to render.
+
+### RowSpacing
+
+Vertical spacing between rows. Defaults to 0.
+
