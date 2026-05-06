@@ -2,6 +2,7 @@ import { Footer, Layout, Navbar } from 'nextra-theme-docs'
 import { Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 import 'nextra-theme-docs/style.css'
+import Image from 'next/image'
 
 export const metadata = {
   title: {
@@ -9,11 +10,22 @@ export const metadata = {
     default: 'Fram3 — Declarative UI for Unity',
   },
   description: 'Fram3 is a declarative UI framework for Unity built on UIToolkit.',
+  icons: {
+    icon: '/favicon.svg',
+  },
 }
 
 const navbar = (
   <Navbar
-    logo={<b>Fram3</b>}
+    logo={
+      <Image
+        src="/logo.svg"
+        alt="Fram3"
+        width={32}
+        height={32}
+        style={{ display: 'inline-block' }}
+      />
+    }
     projectLink="https://github.com/gabaudette/fram3"
   />
 )
