@@ -9,6 +9,10 @@ Represents the instantiation of an Element in the live element tree. Nodes are t
 
 ## Properties
 
+### IsFaulted
+
+True if this node's last Build call threw an unhandled exception. A faulted node renders an ErrorPlaceholder and will not be re-queued for rebuilds until the parent replaces it with a fresh element.
+
 ### IsUnmounted
 
 True once this node has been unmounted. A node that is unmounted may still be in the rebuild scheduler queue (scheduled before the parent rebuilt and replaced this subtree). The scheduler skips unmounted nodes.
