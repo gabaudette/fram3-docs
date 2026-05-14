@@ -3,6 +3,7 @@ import { Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 import 'nextra-theme-docs/style.css'
 import Image from 'next/image'
+import { version } from '../content/version.js'
 
 export const metadata = {
   title: {
@@ -18,13 +19,29 @@ export const metadata = {
 const navbar = (
   <Navbar
     logo={
-      <Image
-        src="/logo.svg"
-        alt="Fram3"
-        width={32}
-        height={32}
-        style={{ display: 'inline-block' }}
-      />
+      <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <Image
+          src="/logo.svg"
+          alt="Fram3"
+          width={32}
+          height={32}
+          style={{ display: 'inline-block' }}
+        />
+        <span
+          style={{
+            fontSize: '11px',
+            fontWeight: 600,
+            letterSpacing: '0.02em',
+            padding: '2px 6px',
+            borderRadius: '4px',
+            background: 'color-mix(in srgb, currentColor 10%, transparent)',
+            color: 'inherit',
+            opacity: 0.7,
+          }}
+        >
+          {version}
+        </span>
+      </span>
     }
     projectLink="https://github.com/gabaudette/fram3"
   />
