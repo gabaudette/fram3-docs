@@ -1,0 +1,57 @@
+﻿---
+title: Stepper
+description: "A numeric input composed of a decrement button, a value label, and an increment button. Supports optional min/max clamping, a configurable step, and a disabled state."
+since: "2.0.0-beta.2"
+status: "live"
+---
+
+# Stepper
+
+A numeric input composed of a decrement button, a value label, and an increment button. Supports optional min/max clamping, a configurable step, and a disabled state.
+
+## Constructor
+
+### Stepper
+
+Creates a Stepper element.
+
+| Parameter | Description |
+| --- | --- |
+| `value` | The current integer value. |
+| `onChanged` | Callback invoked on increment or decrement. Null means disabled. |
+| `min` | Optional lower bound. The value will not go below this. |
+| `max` | Optional upper bound. The value will not go above this. |
+| `step` | The increment/decrement step size. Defaults to 1. |
+| `label` | Optional label shown above the control. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### Label
+
+Optional label displayed above the stepper control. Null means no label is shown.
+
+### Max
+
+The maximum allowed value. Null means no upper bound.
+
+### Min
+
+The minimum allowed value. Null means no lower bound.
+
+### OnChanged
+
+Callback invoked when the user presses increment or decrement. Receives the new clamped value. Null means the stepper is disabled.
+
+### Step
+
+Amount added or subtracted on each press. Defaults to 1.
+
+### Value
+
+The current numeric value displayed by the stepper.
+
+## Methods
+
+### CreateState
+

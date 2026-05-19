@@ -1,6 +1,7 @@
 ﻿---
 title: StatelessElement
 description: "An element that composes other elements but holds no mutable state. Override the Build method to describe the UI subtree this element represents. The framework calls Build whenever the parent rebuilds, and the returned element tree is reconciled against the previous output."
+status: "live"
 ---
 
 # StatelessElement
@@ -28,4 +29,15 @@ Describes the UI subtree that this element represents. Called by the framework w
 | `context` | The build context providing access to the element's position in the tree and ancestor lookup capabilities. |
 
 **Returns:** An element describing the UI subtree.
+
+### ShouldRebuild
+
+Called by the framework before rebuilding this element when its parent rebuilds. Return false to skip the rebuild and keep the existing subtree. Return true (the default) to rebuild as normal. Override this to avoid rebuilding when the new element description is equivalent to the previous one.
+
+| Parameter | Description |
+| --- | --- |
+| `oldElement` | The previous element description. |
+| `newElement` | The incoming element description from the parent. |
+
+**Returns:** true to rebuild; false to skip.
 

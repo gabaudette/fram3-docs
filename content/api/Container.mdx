@@ -1,6 +1,8 @@
 ﻿---
 title: Container
 description: "A general-purpose container element that combines decoration, sizing, and padding in a single node. Maps to a UIToolkit VisualElement with decoration, size constraints, and padding applied directly to its style. When used without a child, it renders as a styled box with no content."
+since: "2.0.0-beta.1"
+status: "live"
 ---
 
 # Container
@@ -19,9 +21,15 @@ Creates an Container element.
 | `width` | Optional explicit width in logical pixels. |
 | `height` | Optional explicit height in logical pixels. |
 | `padding` | Optional inner padding. |
+| `centerChild` | When true, centers the child along both axes. |
+| `onTap` | Optional tap callback registered directly on the native element. |
 | `key` | An optional key for reconciliation identity. |
 
 ## Properties
+
+### CenterChild
+
+When true, the container centers its child along both axes using flex alignment. Equivalent to wrapping the child in a Center but applied directly on this element's native node.
 
 ### Decoration
 
@@ -30,6 +38,10 @@ The visual decoration applied to this container (background color, border, corne
 ### Height
 
 The explicit height in logical pixels. Null means unconstrained on the vertical axis.
+
+### OnTap
+
+Optional tap callback. When set, the container's native element registers a pointer-down handler that invokes this action. Use this instead of wrapping in a GestureDetector when the tap handler must not introduce an extra layout node.
 
 ### Padding
 

@@ -1,0 +1,66 @@
+﻿---
+title: Avatar
+description: "A circular avatar element that displays either an image, a text initials placeholder, or an icon placeholder inside a clipped round container. Exactly one of , , or / should be provided. When more than one is set the priority order is: image source → icon → initials → blank circle."
+status: "live"
+---
+
+# Avatar
+
+A circular avatar element that displays either an image, a text initials placeholder, or an icon placeholder inside a clipped round container. Exactly one of , , or / should be provided. When more than one is set the priority order is: image source → icon → initials → blank circle.
+
+## Constructor
+
+### Avatar
+
+Creates an Avatar element.
+
+| Parameter | Description |
+| --- | --- |
+| `source` | Optional image source (Texture2D or Sprite). Takes highest priority. |
+| `initials` | Optional initials string (1-2 chars) shown when no image or icon is provided. |
+| `iconSource` | Optional icon image source used when no is set. |
+| `iconSvgPath` | Optional SVG path for an icon used when no is set. |
+| `backgroundColor` | Optional circle background color override. |
+| `foregroundColor` | Optional initials/icon color override. |
+| `ring` | Optional border ring drawn around the circle. |
+| `size` | Avatar size step. Defaults to Medium. |
+| `key` | Optional reconciliation key. |
+
+## Properties
+
+### BackgroundColor
+
+Background color of the circle. When null, theme.PrimaryColor is used for the initials variant and theme.SurfaceColor for image/icon variants.
+
+### ForegroundColor
+
+Foreground color applied to initials text and icon tint. When null, theme.OnPrimaryColor is used for the initials variant and theme.PrimaryTextColor for the icon variant.
+
+### IconSource
+
+A UnityEngine.Texture2D or UnityEngine.Sprite used as an icon placeholder when no Source image is provided.
+
+### IconSvgPath
+
+An SVG resource path used as an icon placeholder when no Source image is provided.
+
+### Initials
+
+One or two characters shown as centered text when no image or icon is provided. Typically, the user's initials, e.g. "AB".
+
+### Ring
+
+Optional border drawn around the avatar circle. When null, no border is drawn.
+
+### Size
+
+The display size of the avatar. Defaults to Medium.
+
+### Source
+
+A UnityEngine.Texture2D or UnityEngine.Sprite to display inside the avatar circle. Takes priority over all other content.
+
+## Methods
+
+### CreateState
+

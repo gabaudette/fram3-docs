@@ -1,0 +1,43 @@
+﻿---
+title: ContextMenu
+description: "A floating menu that appears at a given screen position and displays a list of ContextMenuItem entries. Attaches directly to the root container like Modal, rendered with absolute positioning at X, Y. Tapping any item or the backdrop dismisses the menu via OnDismiss."
+since: "2.0.0-beta.2"
+status: "live"
+---
+
+# ContextMenu
+
+A floating menu that appears at a given screen position and displays a list of ContextMenuItem entries. Attaches directly to the root container like Modal, rendered with absolute positioning at X, Y. Tapping any item or the backdrop dismisses the menu via OnDismiss.
+
+## Constructor
+
+### ContextMenu
+
+Creates a ContextMenu.
+
+| Parameter | Description |
+| --- | --- |
+| `items` | Menu items. Must not be null or empty. |
+| `x` | Horizontal anchor position in logical pixels. |
+| `y` | Vertical anchor position in logical pixels. |
+| `onDismiss` | Callback invoked when dismissal is requested. Must not be null. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### Items
+
+The menu items to display. Must not be null or empty.
+
+### OnDismiss
+
+Callback invoked when the menu requests dismissal — after an item tap or a backdrop tap. The caller is responsible for removing the ContextMenu from the tree in response.
+
+### X
+
+Horizontal position in logical pixels from the left of the root container.
+
+### Y
+
+Vertical position in logical pixels from the top of the root container.
+

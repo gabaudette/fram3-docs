@@ -1,0 +1,51 @@
+﻿---
+title: Accordion
+description: "A vertically stacked list of collapsible sections. Each section has a header row that the user can tap to expand or collapse the body content beneath it. The body animates open and closed with a height-reveal slide. When AllowMultiple is false (the default), expanding one item collapses any previously expanded item."
+status: "live"
+---
+
+# Accordion
+
+A vertically stacked list of collapsible sections. Each section has a header row that the user can tap to expand or collapse the body content beneath it. The body animates open and closed with a height-reveal slide. When AllowMultiple is false (the default), expanding one item collapses any previously expanded item.
+
+## Constructor
+
+### Accordion
+
+Creates an Accordion element.
+
+| Parameter | Description |
+| --- | --- |
+| `items` | The ordered list of accordion items. Must not be null. |
+| `allowMultiple` | Whether multiple items may be open simultaneously. Defaults to false. |
+| `initialIndex` | Zero-based index of the item expanded on first mount, or -1 for all collapsed. Defaults to -1. |
+| `animationDuration` | Open/close animation duration in seconds. Defaults to 0.25. |
+| `maxBodyHeight` | Maximum body height in logical pixels during the slide animation. Defaults to 500. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### AllowMultiple
+
+When true, multiple items may be expanded at the same time. When false (the default), expanding an item collapses all others.
+
+### AnimationDuration
+
+Duration in seconds for the open/close slide animation. Defaults to 0.25s.
+
+### InitialIndex
+
+The zero-based index of the item that should be expanded on first mount, or -1 for all collapsed. Defaults to -1.
+
+### Items
+
+The ordered list of items to display.
+
+### MaxBodyHeight
+
+The maximum height in logical pixels that an expanded body panel can reach during the slide animation. Content taller than this value will be clipped at full expansion. Defaults to 500.
+
+## Methods
+
+### CreateState
+

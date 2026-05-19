@@ -1,0 +1,42 @@
+﻿---
+title: TableColumn
+description: "Defines a single column in a Table."
+since: "2.0.0-beta.2"
+status: "live"
+---
+
+# TableColumn
+
+Defines a single column in a Table.
+
+## Constructor
+
+### TableColumn
+
+Creates a TableColumn.
+
+| Parameter | Description |
+| --- | --- |
+| `header` | The column header label. Must not be null. |
+| `cellText` | A function that extracts display text from a row. Must not be null. |
+| `width` | Optional fixed width in logical pixels. |
+| `sortable` | Whether the column header can be clicked to sort. Defaults to true. |
+
+## Properties
+
+### CellText
+
+Extracts the display string for a given row value. Used to render cell text and to compare values when sorting.
+
+### Header
+
+The label displayed in the column header.
+
+### Sortable
+
+Whether this column supports sorting. Defaults to true.
+
+### Width
+
+Optional fixed width in logical pixels. Null means the column shares available width equally with other unsized columns.
+

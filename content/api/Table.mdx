@@ -1,0 +1,46 @@
+﻿---
+title: Table
+description: "A columnar data table with optional row selection and column sorting. Columns are defined via TableColumn. Rows are provided as an IReadOnlyList. Clicking a sortable column header cycles ascending/descending sort on that column. Clicking a row fires Table with the original row value."
+status: "live"
+---
+
+# Table
+
+A columnar data table with optional row selection and column sorting. Columns are defined via TableColumn. Rows are provided as an IReadOnlyList. Clicking a sortable column header cycles ascending/descending sort on that column. Clicking a row fires Table with the original row value.
+
+## Constructor
+
+### Table
+
+Creates a Table.
+
+| Parameter | Description |
+| --- | --- |
+| `columns` | Column definitions. Must not be null or empty. |
+| `rows` | Data rows. Must not be null. |
+| `onRowSelected` | Optional callback invoked when a row is tapped. |
+| `stripedRows` | Whether alternating rows are shaded. Defaults to true. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### Columns
+
+The column definitions. Must not be null or empty.
+
+### OnRowSelected
+
+Called when the user taps a row. Receives the original row value. Null means row taps are not interactive.
+
+### Rows
+
+The data rows. Must not be null.
+
+### StripedRows
+
+Whether alternating row background shading is applied. Defaults to true.
+
+## Methods
+
+### CreateState
+

@@ -1,0 +1,37 @@
+﻿---
+title: ContextMenuItem
+description: "A single entry in a ContextMenu."
+since: "2.0.0-beta.2"
+status: "live"
+---
+
+# ContextMenuItem
+
+A single entry in a ContextMenu.
+
+## Constructor
+
+### ContextMenuItem
+
+Creates a ContextMenuItem.
+
+| Parameter | Description |
+| --- | --- |
+| `label` | Display label. Must not be null. |
+| `onTap` | Callback invoked on tap. Must not be null. |
+| `disabled` | Whether the item is non-interactive. Defaults to false. |
+
+## Properties
+
+### Disabled
+
+When true the item is rendered with reduced opacity and does not respond to taps. Defaults to false.
+
+### Label
+
+The label displayed for this menu item.
+
+### OnTap
+
+Callback invoked when the user taps this item. Not invoked when Disabled is true.
+

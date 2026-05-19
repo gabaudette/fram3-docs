@@ -1,0 +1,52 @@
+﻿---
+title: Dialog
+description: "A modal overlay dialog with a title, optional body content, and action buttons. The dialog is centered on a dimmed full-screen backdrop. Tapping the backdrop invokes OnDismiss when BarrierDismissible is true. Visibility is controlled by the caller mounting or unmounting this element."
+since: "2.0.0-beta.2"
+status: "live"
+---
+
+# Dialog
+
+A modal overlay dialog with a title, optional body content, and action buttons. The dialog is centered on a dimmed full-screen backdrop. Tapping the backdrop invokes OnDismiss when BarrierDismissible is true. Visibility is controlled by the caller mounting or unmounting this element.
+
+## Constructor
+
+### Dialog
+
+Creates a Dialog element.
+
+| Parameter | Description |
+| --- | --- |
+| `title` | The heading text. Must not be null. |
+| `content` | The optional body element. |
+| `actions` | Action buttons as (label, callback) pairs. |
+| `onDismiss` | Callback invoked when dismissal is requested. |
+| `barrierDismissible` | Whether tapping the backdrop triggers . |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### Actions
+
+Action buttons rendered at the bottom of the dialog. Each entry is a (label, callback) pair.
+
+### BarrierDismissible
+
+When true, tapping the backdrop invokes OnDismiss. Defaults to true.
+
+### Content
+
+The optional body element displayed between the title and actions.
+
+### OnDismiss
+
+Callback invoked when the user requests dismissal via the backdrop or a cancel action.
+
+### Title
+
+The heading text displayed at the top of the dialog panel.
+
+## Methods
+
+### Build
+
