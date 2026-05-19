@@ -4,6 +4,7 @@ import { getPageMap } from 'nextra/page-map'
 import 'nextra-theme-docs/style.css'
 import Image from 'next/image'
 import { version } from '../content/version.js'
+import { Analytics } from '@vercel/analytics/next'
 
 export const metadata = {
   title: {
@@ -64,6 +65,7 @@ export default async function RootLayout({ children }) {
         >
           {children}
         </Layout>
+        <Analytics />
       </body>
     </html>
   )
