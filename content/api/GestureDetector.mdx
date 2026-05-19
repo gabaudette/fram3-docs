@@ -1,6 +1,8 @@
 ﻿---
 title: GestureDetector
 description: "A transparent wrapper that detects pointer gestures on its child subtree. Maps to a plain UIToolkit VisualElement with registered pointer event callbacks."
+since: "2.0.0-beta.1"
+status: "live"
 ---
 
 # GestureDetector
@@ -21,6 +23,7 @@ Creates a GestureDetector element.
 | `onLongPress` | Callback invoked when the pointer is held for 500 ms. |
 | `onPointerEnter` | Callback invoked when the pointer enters. |
 | `onPointerExit` | Callback invoked when the pointer exits. |
+| `onSecondaryTap` | Callback invoked on right-click; receives root-space (x, y). |
 | `key` | An optional key for reconciliation identity. |
 
 ## Properties
@@ -40,6 +43,10 @@ Callback invoked when the pointer enters this element's bounds.
 ### OnPointerExit
 
 Callback invoked when the pointer exits this element's bounds.
+
+### OnSecondaryTap
+
+Callback invoked when the user right-clicks (secondary button down) inside this element's bounds. Receives the pointer position in root-container logical pixels as (x, y). Use this to open a ContextMenu at the reported coordinates.
 
 ### OnTap
 

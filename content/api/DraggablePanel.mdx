@@ -1,0 +1,79 @@
+﻿---
+title: DraggablePanel
+description: "A floating panel that the user can drag freely within the root container. Attaches directly to the root like Modal. Drag is handled entirely in the painter via pointer events on the title bar; position and size updates mutate native styles directly without triggering a framework rebuild."
+since: "2.0.0-beta.2"
+status: "live"
+---
+
+# DraggablePanel
+
+A floating panel that the user can drag freely within the root container. Attaches directly to the root like Modal. Drag is handled entirely in the painter via pointer events on the title bar; position and size updates mutate native styles directly without triggering a framework rebuild.
+
+## Constructor
+
+### DraggablePanel
+
+Creates a DraggablePanel.
+
+| Parameter | Description |
+| --- | --- |
+| `child` | The content displayed inside the panel. Must not be null. |
+| `initialX` | Initial left position in logical pixels. |
+| `initialY` | Initial top position in logical pixels. |
+| `title` | Optional title shown in the drag handle bar. |
+| `width` | Optional initial width. Null means size-to-content. |
+| `height` | Optional initial height. Null means size-to-content. |
+| `onClose` | Optional close button callback. |
+| `resizable` | Whether a resize grip is shown. Defaults to false. |
+| `minWidth` | Minimum width when resizable. Defaults to 120. |
+| `maxWidth` | Maximum width when resizable. Defaults to unbounded. |
+| `minHeight` | Minimum height when resizable. Defaults to 80. |
+| `maxHeight` | Maximum height when resizable. Defaults to unbounded. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### Height
+
+Initial height of the panel in logical pixels. When null the panel sizes to its content height.
+
+### InitialX
+
+Initial horizontal position in logical pixels from the left of the root container.
+
+### InitialY
+
+Initial vertical position in logical pixels from the top of the root container.
+
+### MaxHeight
+
+Maximum height in logical pixels when resizable. Defaults to float.MaxValue (unbounded).
+
+### MaxWidth
+
+Maximum width in logical pixels when resizable. Defaults to float.MaxValue (unbounded).
+
+### MinHeight
+
+Minimum height in logical pixels when resizable. Defaults to 80.
+
+### MinWidth
+
+Minimum width in logical pixels when resizable. Defaults to 120.
+
+### OnClose
+
+Optional callback invoked when the user presses the close button. When null no close button is rendered.
+
+### Resizable
+
+When true a resize grip is rendered in the bottom-right corner and the user can drag it to resize the panel.
+
+### Title
+
+Optional title displayed in the drag handle bar.
+
+### Width
+
+Initial width of the panel in logical pixels. When null the panel sizes to its content width.
+

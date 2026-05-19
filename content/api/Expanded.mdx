@@ -1,6 +1,8 @@
 ﻿---
 title: Expanded
 description: "Wraps a single child and causes it to expand along the main axis of the parent flex container, proportional to its Flex factor. Maps to UIToolkit's flexGrow style property."
+since: "2.0.0-beta.1"
+status: "live"
 ---
 
 # Expanded
@@ -16,6 +18,8 @@ Creates an Expanded element.
 | Parameter | Description |
 | --- | --- |
 | `flex` | The flex grow factor. Must be greater than zero. Defaults to 1. |
+| `padding` | Optional inner padding. |
+| `onTap` | Optional tap callback registered directly on the native element. |
 | `key` | An optional key for reconciliation identity. |
 
 ## Properties
@@ -23,4 +27,12 @@ Creates an Expanded element.
 ### Flex
 
 The flex factor that controls how much of the remaining space this element claims relative to other Expanded siblings. Defaults to 1.
+
+### OnTap
+
+Optional tap callback registered directly on the native element. Use this instead of wrapping in a GestureDetector to avoid introducing an extra layout node inside a flex container.
+
+### Padding
+
+Optional inner padding applied to the expanded container.
 

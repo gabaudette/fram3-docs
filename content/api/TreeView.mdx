@@ -1,0 +1,41 @@
+﻿---
+title: TreeView
+description: "A hierarchical expandable/collapsible tree. Nodes with children show a chevron that toggles their subtree. Leaf nodes optionally fire OnNodeTap."
+status: "live"
+---
+
+# TreeView
+
+A hierarchical expandable/collapsible tree. Nodes with children show a chevron that toggles their subtree. Leaf nodes optionally fire OnNodeTap.
+
+## Constructor
+
+### TreeView
+
+Creates a TreeView element.
+
+| Parameter | Description |
+| --- | --- |
+| `nodes` | The root-level nodes. Must not be null. |
+| `onNodeTap` | Optional callback invoked when a node is tapped. |
+| `indent` | Horizontal indent per depth level in logical pixels. Defaults to 20. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### Indent
+
+Horizontal indent in logical pixels applied per nesting level. Defaults to 20.
+
+### Nodes
+
+The root-level nodes of the tree.
+
+### OnNodeTap
+
+Called when the user taps a node. Receives the tapped TreeViewNode. Null means no tap callback.
+
+## Methods
+
+### CreateState
+

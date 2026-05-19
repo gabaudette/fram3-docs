@@ -1,0 +1,43 @@
+﻿---
+title: Card
+description: "An elevated surface container with an optional header, main content area, and optional footer. Maps to a VisualElement with a SurfaceColor background, rounded corners, and a subtle ambient shadow."
+since: "2.0.0-beta.2"
+status: "live"
+---
+
+# Card
+
+An elevated surface container with an optional header, main content area, and optional footer. Maps to a VisualElement with a SurfaceColor background, rounded corners, and a subtle ambient shadow.
+
+## Constructor
+
+### Card
+
+Creates a Card element.
+
+| Parameter | Description |
+| --- | --- |
+| `content` | The main body content. Required. |
+| `header` | Optional header element shown above the content. |
+| `footer` | Optional footer element shown below the content. |
+| `outlined` | When true, renders as a flat outlined card without shadow. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### Content
+
+The main content of the card body.
+
+### Footer
+
+Optional element rendered below the content area, separated by a divider. When null, no footer or divider is shown.
+
+### Header
+
+Optional element rendered above the content area, separated by a divider. When null, no header or divider is shown.
+
+### Outlined
+
+When true, the card has no shadow and uses a border instead of elevation. Useful for flat/outlined card variants.
+

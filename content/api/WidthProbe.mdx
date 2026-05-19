@@ -1,0 +1,28 @@
+﻿---
+title: WidthProbe
+description: "A zero-height element that stretches to fill its parent's width and fires OnWidth with the resolved pixel width whenever layout changes. Use this to measure available width before committing to explicit column widths."
+since: "2.0.0-beta.2"
+status: "live"
+---
+
+# WidthProbe
+
+A zero-height element that stretches to fill its parent's width and fires OnWidth with the resolved pixel width whenever layout changes. Use this to measure available width before committing to explicit column widths.
+
+## Constructor
+
+### WidthProbe
+
+Creates a WidthProbe.
+
+| Parameter | Description |
+| --- | --- |
+| `onWidth` | Callback invoked with the resolved width. Must not be null. |
+| `key` | An optional key for reconciliation identity. |
+
+## Properties
+
+### OnWidth
+
+Invoked with the resolved width in logical pixels each time the layout changes.
+

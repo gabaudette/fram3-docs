@@ -1,6 +1,7 @@
 ﻿---
 title: AnimationSystem
 description: "Global registry that tracks all live AnimationController instances and advances them each frame. Renderer calls Single) once per frame before flushing the rebuild scheduler."
+status: "live"
 ---
 
 # AnimationSystem
@@ -21,7 +22,7 @@ Clears all registered controllers without disposing them. Intended for test isol
 
 ### Tick
 
-Advances all registered animation controllers by seconds. Called automatically by Single).
+Advances all registered animation controllers by seconds. Called automatically by Tick.
 
 | Parameter | Description |
 | --- | --- |
