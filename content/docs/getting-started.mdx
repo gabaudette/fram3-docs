@@ -85,19 +85,22 @@ public sealed class CounterElement : StatefulElement
 {
     public override State CreateState() => new CounterState();
 
-    private sealed class CounterState : State
+    private sealed class CounterState : State<CounterElement>
     {
         private int _count;
 
         public override Element Build(BuildContext context)
         {
-            return new Column(children: new Element[]
+            return new Column
             {
-                new Text($"Count: {_count}"),
-                new Button(
-                    label: "Increment",
-                    onPressed: () => SetState(() => _count++)),
-            });
+                Children = new Element[]
+                {
+                    new Text($"Count: {_count}"),
+                    new Button(
+                        label: "Increment",
+                        onPressed: () => SetState(() => _count++)),
+                }
+            };
         }
     }
 }
