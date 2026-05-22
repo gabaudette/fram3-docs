@@ -3,7 +3,7 @@ title: StatefulElement
 description: "live An element that has mutable state persisted across rebuilds. The framework creates the state object once via CreateState, and preserves it even when the element description is recreated. Use this when a piece of UI needs to track information that changes over time, such as user input, animation progress, or toggle state."
 since: "2.0.0-beta.1"
 status: "live"
-# status-normalized: 2026-05-22
+
 ---
 
 # StatefulElement
@@ -27,4 +27,3 @@ Creates a new stateful element with an optional key.
 Creates the mutable state object for this element. Called exactly once when the element is first mounted into the tree. The returned state object persists across rebuilds until the element is unmounted.
 
 **Returns:** A new state instance for this element.
-
