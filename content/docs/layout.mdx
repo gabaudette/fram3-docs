@@ -230,9 +230,8 @@ new Wrap
 
 ```csharp
 new Container(
-    decoration: new BoxDecoration(Color: theme.BackgroundColor),
-    width: float.NaN,   // unconstrained = fill parent
-    height: float.NaN
+    decoration: new BoxDecoration(Color: theme.BackgroundColor)
+    // width and height omitted -- Container fills its parent naturally via flex
 )
 {
     Child = new Column

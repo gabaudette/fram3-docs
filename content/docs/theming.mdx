@@ -27,6 +27,9 @@ Fram3 ships a lightweight, token-based theme system. A `Theme` is an immutable r
 | `FontSizeLarge` | `float` | Heading and title size in pixels |
 | `BorderRadius` | `float` | Corner radius for buttons, cards, and inputs |
 | `Spacing` | `float` | Base spacing unit for padding and gaps |
+| `InputBorderColor` | `FrameColor` | Border color for input fields, dropdowns, and scrollbars |
+| `TrackColor` | `FrameColor` | Background color for slider tracks and scrollbar tracks |
+| `ScrollbarWidth` | `float` | Width in pixels of scrollbars |
 
 ### Default theme
 
@@ -48,6 +51,9 @@ Theme.Default
 // FontSizeLarge   20
 // BorderRadius    4
 // Spacing         8
+// InputBorderColor  #E0E0E0
+// TrackColor        #EEEEEE
+// ScrollbarWidth    8
 ```
 
 ## Creating a custom theme
@@ -72,6 +78,9 @@ var darkTheme = new Theme
     FontSizeLarge   = 20f,
     BorderRadius    = 8f,
     Spacing         = 8f,
+    InputBorderColor    = FrameColor.FromHex("#BB86FC"),
+    TrackColor          = FrameColor.FromHex("#3A3A3A"),
+    ScrollbarWidth      = 8f,
 };
 
 // Or override only the tokens you care about
@@ -230,6 +239,9 @@ public sealed class ThemeSwitcher : StatefulElement
             FontSizeLarge   = 20f,
             BorderRadius    = 8f,
             Spacing         = 8f,
+            InputBorderColor    = FrameColor.FromHex("#BB86FC"),
+            TrackColor          = FrameColor.FromHex("#3A3A3A"),
+            ScrollbarWidth      = 8f,
         };
     }
 }

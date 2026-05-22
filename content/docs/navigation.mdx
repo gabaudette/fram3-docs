@@ -148,15 +148,13 @@ public sealed class CharacterSelectApp : StatefulElement
 
         public override Element Build(BuildContext context)
         {
-            var nav = context.GetInherited<NavigatorScope>().Navigator;
-
             return new Navigator(
                 routes: new Dictionary<string, Func<BuildContext, Element>>
                 {
-                    ["roster"] = (_) => new RosterScreen(onSelect: character =>
+                    ["roster"] = (ctx) => new RosterScreen(onSelect: character =>
                     {
                         SetState(() => _pending = character);
-                        nav.Push("confirm");
+                        ctx.GetInherited<NavigatorScope>().Navigator.Push("confirm");
                     }),
                     ["confirm"] = (_) => new ConfirmScreen(character: _pending!),
                 },
@@ -250,7 +248,7 @@ The scene name must match a scene registered in **File > Build Settings**. Passi
 
 ### Showing a loading screen
 
-A loading screen reads `Progress` each frame to drive a progress bar. Hold the `SceneOperation` in state and call `SetState` each frame to update the display:
+A loading screen reads `Progress` each frame to drive a progress bar. Hold the `SceneOperation` in state, subscribe to a frame callback in `InitState` to poll progress, and call `SetState` only from outside `Build`:
 
 ```csharp
 public sealed class LoadingScreen : StatefulElement
@@ -275,19 +273,22 @@ public sealed class LoadingScreen : StatefulElement
             _operation.Completed += () => SetState(() => _progress = 1f);
         }
 
-        public override Element Build(BuildContext context)
+        public override void DidUpdate()
         {
             if (_operation != null && !_operation.IsCompleted)
             {
                 SetState(() => _progress = _operation.Progress);
             }
+        }
 
+        public override Element Build(BuildContext context)
+        {
             return new Column(mainAxisAlignment: MainAxisAlignment.Center)
             {
                 Children = new Element[]
                 {
                     new Text("Loading..."),
-                    new ProgressBar(value: _progress),
+                    new ProgressBar(value: _progress, min: 0f, max: 1f),
                 }
             };
         }
