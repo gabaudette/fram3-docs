@@ -7,13 +7,11 @@ const OriginalWrapper = nextraComponents.wrapper;
 
 function ApiPageWrapper({ toc, metadata, sourceCode, children }) {
     const status = metadata?.status;
-    // `since` comes from the page frontmatter (metadata). Use metadata?.since
-    // instead of the undefined identifier `since` which caused a runtime
-    // ReferenceError during prerendering.
-    const since = metadata?.since;
+    // StatusBadge only needs `status`. Do not reference or pass any `since`
+    // value; the project no longer uses `since` in MDX frontmatter.
     return (
         <OriginalWrapper toc={toc} metadata={metadata} sourceCode={sourceCode}>
-            <StatusBadge since={since} status={status} />
+            <StatusBadge status={status} />
             {children}
         </OriginalWrapper>
     );
