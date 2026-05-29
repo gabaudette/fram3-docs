@@ -1,9 +1,8 @@
----
+﻿---
 title: NodeExpander
 description: "live Mounts, unmounts, and expands Nodes from Element descriptions. Expanding a node means recursively building the subtree beneath it: for stateless elements by calling Build, for stateful elements by invoking the state's Build, and for structural elements by walking their declared children. Unmounting a node recursively disposes state and clears child references. This is an internal framework type not intended for direct use."
-
-
-
+since: "2.0.0-beta.1"
+status: "live"
 ---
 
 # NodeExpander
@@ -27,3 +26,4 @@ Recursively unmounts a node subtree: disposes state bottom-up and clears child r
 ### UpdateElement
 
 Updates the element reference on a node and, for stateful nodes, invokes StatefulElement) with the previous element. For inherited element nodes, notifies dependents when InheritedElement) returns true.
+

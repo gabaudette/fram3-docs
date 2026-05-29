@@ -1,9 +1,8 @@
----
+﻿---
 title: PersistentStore
 description: "live A reactive state store that automatically persists its state across scene reloads using a pluggable IPersistenceAdapter. On first access the previously persisted state is restored; every subsequent Cubit call that changes the state persists the new state."
-
-
-
+since: "2.0.0-beta.1"
+status: "live"
 ---
 
 # PersistentStore
@@ -20,3 +19,4 @@ Creates a persistent store. If the adapter can load a previously persisted state
 | --- | --- |
 | `fallbackState` | The state to use when no persisted state is available. |
 | `adapter` | The adapter responsible for saving and loading state. Must not be null. |
+
