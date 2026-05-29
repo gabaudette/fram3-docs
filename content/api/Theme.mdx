@@ -1,9 +1,8 @@
----
+﻿---
 title: Theme
 description: "live An immutable set of design tokens that define the visual language of the application. Pass a theme through the tree with ThemeProvider and read it in any descendant with ThemeConsumer.Of(context)."
-
-
-
+since: "2.0.0-beta.1"
+status: "live"
 ---
 
 # Theme
@@ -31,6 +30,10 @@ Text color applied to disabled controls and placeholder text.
 ### ErrorColor
 
 Color used to indicate errors and destructive actions.
+
+### FontFamily
+
+The SDF font asset applied to all text in this theme's subtree. Null uses Unity's default font. Can be overridden per-element via FontAsset.
 
 ### FontSize
 
@@ -60,6 +63,18 @@ The primary brand color, used for prominent interactive elements.
 
 Default body text color.
 
+### ScrollbarBorder
+
+Whether scrollbars render a visible border.
+
+### ScrollbarBorderColor
+
+Color of the scrollbar border. Only applied when ScrollbarBorder is true.
+
+### ScrollbarBorderWidth
+
+Width in pixels of the scrollbar border. Only applied when ScrollbarBorder is true.
+
 ### ScrollbarWidth
 
 Width in pixels of vertical scrollbars and height of horizontal scrollbars.
@@ -72,6 +87,10 @@ The secondary brand color, used for complementary accents.
 
 Subdued text color for secondary labels and captions.
 
+### SliderDraggerRadius
+
+Corner radius in pixels applied to slider and min-max slider dragger handles.
+
 ### Spacing
 
 Base spacing unit in pixels used for padding and gaps between elements.
@@ -83,3 +102,4 @@ The surface color for cards, dialogs, and elevated containers.
 ### TrackColor
 
 Background color for slider tracks and scrollbar track areas.
+

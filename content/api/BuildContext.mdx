@@ -1,7 +1,8 @@
----
+﻿---
 title: BuildContext
 description: "live A handle to the location of an element in the element tree. Provides access to ancestor elements and framework services from within a Build method. Each element in the tree receives its own build context, which can be used to look up inherited data or access navigation and state management facilities."
-
+since: "2.0.0-beta.1"
+status: "live"
 ---
 
 # BuildContext
@@ -47,3 +48,4 @@ Walks up the element tree looking for the nearest ancestor element of the specif
 Walks up the element tree looking for the nearest ancestor that is an InheritedElement of type , registers this element as a dependent, and returns the inherited element. Throws when no matching ancestor exists.
 
 **Returns:** The nearest ancestor inherited element of type T.
+

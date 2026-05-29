@@ -1,9 +1,8 @@
----
+﻿---
 title: SceneOperation
 description: "live Represents an in-progress or completed scene load initiated by GoTo. Poll Progress each frame or subscribe to Completed to react when the scene is fully loaded."
-
-
-
+since: "2.0.0-beta.1"
+status: "live"
 ---
 
 # SceneOperation
@@ -25,3 +24,4 @@ The normalized load progress in the range [0, 1]. Updated continuously during an
 ### Complete
 
 Marks the operation as completed, sets Progress to 1, and raises Completed. Safe to call multiple times; subsequent calls are no-ops.
+

@@ -1,9 +1,8 @@
----
+﻿---
 title: TreeDiffer
 description: "live Produces a minimal list of DiffOp operations that transform an existing list of child Nodes to reflect a new list of child Elements. The algorithm prioritizes keyed matching, then falls back to positional matching for unkeyed elements of the same type. This is an internal framework type not intended for direct use."
-
-
-
+since: "2.0.0-beta.1"
+status: "live"
 ---
 
 # TreeDiffer
@@ -22,3 +21,4 @@ Computes the diff between an old node list and a new element list.
 | `newElements` | Desired child elements from the latest build. |
 
 **Returns:** An ordered list of operations to apply. Operations are ordered so that Remove operations appear first, followed by Insert, Update, and Move operations in new-index order.
+
