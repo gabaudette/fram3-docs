@@ -44,3 +44,14 @@ Returns the children of this element for tree traversal. Override this in subcla
 
 **Returns:** The child elements of this element.
 
+### ShouldRebuild
+
+Called by the framework before updating this element's native representation when its parent rebuilds. Return false to skip repainting this element (its children will still be reconciled). Return true (the default) to repaint as normal. For this method is shadowed by its typed ShouldRebuild(StatelessElement, StatelessElement) override, which skips the entire subtree — not just the paint — when it returns false. For all other element types returning false skips only the ElementPainter.Paint call; children are still reconciled normally.
+
+| Parameter | Description |
+| --- | --- |
+| `oldElement` | The previous element description. |
+| `newElement` | The incoming element description from the parent. |
+
+**Returns:** true to repaint; false to skip paint for this element.
+
